@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#81B5A1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="ServiceNow CSA Exam Study App - Zurich Release">
+  <title>SN CSA Study</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-title">
+      <div class="logo">SN</div>
+      CSA Study
+    </div>
+    <div class="header-actions">
+      <button class="btn-icon" id="settingsBtn" aria-label="Settings">&#9881;</button>
+      <button class="btn-icon" id="themeBtn" aria-label="Toggle theme">&#9790;</button>
+    </div>
+  </header>
+
+  <!-- Pages -->
+  <main>
+    <!-- Home -->
+    <div id="page-home" class="page active">
+      <div class="readiness-ring">
+        <svg viewBox="0 0 120 120">
+          <circle class="ring-bg" cx="60" cy="60" r="52"/>
+          <circle class="ring-fill" id="readinessRing" cx="60" cy="60" r="52"
+            stroke-dasharray="326.73" stroke-dashoffset="326.73"/>
+        </svg>
+        <div class="readiness-value">
+          <div class="number" id="readinessNumber">0</div>
+          <div class="label">Readiness</div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="statAttempted">0</div>
+          <div class="stat-label">Attempted</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statAccuracy">0%</div>
+          <div class="stat-label">Accuracy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statQuizzes">0</div>
+          <div class="stat-label">Quizzes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statStreak">0</div>
+          <div class="stat-label">Day Streak</div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <button class="action-btn" onclick="App.navigate('quiz')">
+          <span class="action-icon">&#9997;</span>
+          <span class="action-label">Quiz</span>
+        </button>
+        <button class="action-btn" onclick="App.navigate('flashcards')">
+          <span class="action-icon">&#127183;</span>
+          <span class="action-label">Flashcards</span>
+        </button>
+        <button class="action-btn" onclick="App.navigate('review')">
+          <span class="action-icon">&#128218;</span>
+          <span class="action-label">Review</span>
+        </button>
+      </div>
+
+      <div class="domain-progress">
+        <h3>Domain Progress</h3>
+        <div id="domainBars"></div>
+      </div>
+
+      <div id="recentQuizzes"></div>
+    </div>
+
+    <!-- Quiz -->
+    <div id="page-quiz" class="page"></div>
+
+    <!-- Flashcards -->
+    <div id="page-flashcards" class="page"></div>
+
+    <!-- Review -->
+    <div id="page-review" class="page"></div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-page="home">
+      <span class="nav-icon">&#9750;</span>
+      Home
+    </button>
+    <button class="nav-item" data-page="quiz">
+      <span class="nav-icon">&#9997;</span>
+      Quiz
+    </button>
+    <button class="nav-item" data-page="flashcards">
+      <span class="nav-icon">&#127183;</span>
+      Cards
+    </button>
+    <button class="nav-item" data-page="review">
+      <span class="nav-icon">&#128218;</span>
+      Review
+    </button>
+  </nav>
+
+  <!-- Settings Overlay -->
+  <div class="settings-overlay" id="settingsOverlay">
+    <div class="settings-panel">
+      <h3>Settings</h3>
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Dark Mode</div>
+          <div class="setting-desc">Toggle dark/light theme</div>
+        </div>
+        <div class="toggle-switch">
+          <input type="checkbox" id="darkModeToggle">
+          <span class="toggle-slider"></span>
+        </div>
+      </div>
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Reset Progress</div>
+          <div class="setting-desc">Clear all study data</div>
+        </div>
+        <button class="btn-danger" id="resetBtn">Reset</button>
+      </div>
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Questions</div>
+          <div class="setting-desc" id="questionCount">0 total</div>
+        </div>
+      </div>
+      <button class="btn-secondary mt-16" onclick="App.closeSettings()">Close</button>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/quiz.js"></script>
+  <script src="js/flashcards.js"></script>
+  <script src="js/review.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
