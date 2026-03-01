@@ -33,6 +33,44 @@ const App = (() => {
         closeSettings();
       }
     });
+
+    // Export
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const json = Progress.exportData();
+      const blob = new Blob([json], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const date = new Date().toISOString().slice(0, 10);
+      a.download = `csa-progress-${date}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    // Import
+    const importFileInput = document.getElementById('importFileInput');
+    document.getElementById('importBtn').addEventListener('click', () => {
+      importFileInput.click();
+    });
+    importFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          Progress.importData(ev.target.result);
+          renderHome();
+          alert('Progress imported successfully.');
+        } catch (err) {
+          alert('Import failed: ' + err.message);
+        }
+        importFileInput.value = '';
+      };
+      reader.readAsText(file);
+    });
+
     document.getElementById('questionCount').textContent = QUESTIONS.length + ' total';
 
     // Init modules

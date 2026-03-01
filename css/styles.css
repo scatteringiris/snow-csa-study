@@ -1087,6 +1087,23 @@ body {
 
 .btn-danger:active { opacity: 0.8; }
 
+.btn-accent {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-accent:active {
+  background: var(--accent);
+  color: white;
+}
+
 /* Recent quizzes */
 .quiz-history-item {
   display: flex;

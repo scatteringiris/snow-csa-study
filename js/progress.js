@@ -196,10 +196,67 @@ const Progress = (() => {
     localStorage.removeItem(STORAGE_KEY);
   }
 
+  function exportData() {
+    return JSON.stringify(getAll());
+  }
+
+  function importData(jsonString) {
+    let incoming;
+    try {
+      incoming = JSON.parse(jsonString);
+    } catch {
+      throw new Error('Invalid JSON file.');
+    }
+    // Validate shape
+    if (typeof incoming !== 'object' || incoming === null ||
+        typeof incoming.questions !== 'object' ||
+        !Array.isArray(incoming.quizHistory)) {
+      throw new Error('Invalid progress data format.');
+    }
+
+    const existing = getAll();
+
+    // Merge questions: keep better stats per question
+    Object.entries(incoming.questions).forEach(([id, inc]) => {
+      const cur = existing.questions[id];
+      if (!cur) {
+        existing.questions[id] = inc;
+      } else {
+        // Keep higher attempts/correct, best streak, most recent timestamps
+        existing.questions[id] = {
+          attempts: Math.max(cur.attempts || 0, inc.attempts || 0),
+          correct: Math.max(cur.correct || 0, inc.correct || 0),
+          lastSeen: Math.max(cur.lastSeen || 0, inc.lastSeen || 0) || null,
+          lastCorrect: Math.max(cur.lastCorrect || 0, inc.lastCorrect || 0) || null,
+          streak: Math.max(cur.streak || 0, inc.streak || 0)
+        };
+      }
+    });
+
+    // Merge quiz history: deduplicate by date+domain+total+correct
+    const seen = new Set(existing.quizHistory.map(q =>
+      `${q.date}|${q.domain}|${q.total}|${q.correct}`
+    ));
+    incoming.quizHistory.forEach(q => {
+      const key = `${q.date}|${q.domain}|${q.total}|${q.correct}`;
+      if (!seen.has(key)) {
+        existing.quizHistory.push(q);
+        seen.add(key);
+      }
+    });
+    // Sort by date and keep last 100
+    existing.quizHistory.sort((a, b) => a.date - b.date);
+    if (existing.quizHistory.length > 100) {
+      existing.quizHistory = existing.quizHistory.slice(-100);
+    }
+
+    save(existing);
+  }
+
   return {
     getAll, getQuestionStats, recordAnswer, recordQuiz,
     getDomainAccuracy, getDomainProgress, getOverallStats,
     getWeight, getWeightedQuestions, getRecentQuizzes,
-    getSetting, setSetting, reset
+    getSetting, setSetting, reset, exportData, importData
   };
 })();
