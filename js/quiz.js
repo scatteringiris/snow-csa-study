@@ -11,7 +11,8 @@ const Quiz = (() => {
     timerSeconds: 0,
     timerInterval: null,
     startTime: null,
-    answered: false
+    answered: false,
+    shuffledOrders: {}
   };
 
   const container = () => document.getElementById('page-quiz');
@@ -89,6 +90,7 @@ const Quiz = (() => {
     state.currentIndex = 0;
     state.answers = [];
     state.answered = false;
+    state.shuffledOrders = {};
     state.startTime = Date.now();
 
     // Filter and select questions
@@ -111,12 +113,30 @@ const Quiz = (() => {
     renderQuestion();
   }
 
+  // Build a shuffled order for a question's options (stable per quiz attempt)
+  function getShuffledOrder(qIndex) {
+    if (!state.shuffledOrders[qIndex]) {
+      const q = state.questions[qIndex];
+      const indices = q.options.map((_, i) => i);
+      // Fisher-Yates shuffle
+      for (let i = indices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [indices[i], indices[j]] = [indices[j], indices[i]];
+      }
+      state.shuffledOrders[qIndex] = indices;
+    }
+    return state.shuffledOrders[qIndex];
+  }
+
   function renderQuestion() {
     const q = state.questions[state.currentIndex];
     const domain = DOMAINS[q.domain];
     const isMulti = q.type === 'multi';
     const existingAnswer = state.answers[state.currentIndex];
     state.answered = !!existingAnswer;
+
+    // Get shuffled display order for options
+    const shuffled = getShuffledOrder(state.currentIndex);
 
     const timerHtml = state.timerEnabled ? `<div class="quiz-timer" id="quizTimerDisplay">${formatTime(state.timerSeconds)}</div>` : '';
     const progressPct = ((state.currentIndex + 1) / state.questions.length * 100).toFixed(0);
@@ -133,17 +153,18 @@ const Quiz = (() => {
       ${isMulti ? '<div class="question-hint">Select all that apply</div>' : ''}
 
       <div class="options-list" id="optionsList">
-        ${q.options.map((opt, i) => {
+        ${shuffled.map((origIdx, displayIdx) => {
+          const opt = q.options[origIdx];
           let cls = 'option-btn';
           if (existingAnswer) {
             cls += ' disabled';
             const correctArr = Array.isArray(q.correct) ? q.correct : [q.correct];
             const selectedArr = Array.isArray(existingAnswer.selected) ? existingAnswer.selected : [existingAnswer.selected];
-            if (correctArr.includes(i)) cls += ' correct';
-            else if (selectedArr.includes(i)) cls += ' incorrect';
+            if (correctArr.includes(origIdx)) cls += ' correct';
+            else if (selectedArr.includes(origIdx)) cls += ' incorrect';
           }
-          return `<button class="${cls}" data-index="${i}">
-            <span class="option-letter">${letters[i]}</span>
+          return `<button class="${cls}" data-orig-index="${origIdx}">
+            <span class="option-letter">${letters[displayIdx]}</span>
             <span>${opt}</span>
           </button>`;
         }).join('')}
@@ -169,20 +190,20 @@ const Quiz = (() => {
 
       container().querySelectorAll('.option-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          const idx = parseInt(btn.dataset.index);
+          const origIdx = parseInt(btn.dataset.origIndex);
           if (isMultiSelect) {
-            if (selected.includes(idx)) {
-              selected = selected.filter(s => s !== idx);
+            if (selected.includes(origIdx)) {
+              selected = selected.filter(s => s !== origIdx);
               btn.classList.remove('selected');
             } else {
-              selected.push(idx);
+              selected.push(origIdx);
               btn.classList.add('selected');
             }
             document.getElementById('submitBtn').disabled = selected.length === 0;
           } else {
             container().querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
-            selected = [idx];
+            selected = [origIdx];
             // Auto-submit for single choice
             submitAnswer(selected, q);
           }
@@ -249,8 +270,16 @@ const Quiz = (() => {
     });
 
     const wrongAnswers = state.answers
-      .map((a, i) => ({ ...a, question: state.questions[i] }))
+      .map((a, i) => ({ ...a, question: state.questions[i], qIndex: i }))
       .filter(a => !a.isCorrect);
+
+    // Helper: map original option index to the display letter via shuffle order
+    function displayLabel(qIndex, origIdx) {
+      const shuffled = state.shuffledOrders[qIndex];
+      if (!shuffled) return letters[origIdx];
+      const displayPos = shuffled.indexOf(origIdx);
+      return letters[displayPos >= 0 ? displayPos : origIdx];
+    }
 
     container().innerHTML = `
       <div class="results-score">
@@ -279,8 +308,8 @@ const Quiz = (() => {
             const selectedArr = Array.isArray(a.selected) ? a.selected : [a.selected];
             return `<div class="wrong-item">
               <div class="wrong-q">${q.question}</div>
-              <div class="wrong-your-answer">Your answer: ${selectedArr.map(i => letters[i] + ') ' + q.options[i]).join(', ')}</div>
-              <div class="wrong-correct-answer">Correct: ${correctArr.map(i => letters[i] + ') ' + q.options[i]).join(', ')}</div>
+              <div class="wrong-your-answer">Your answer: ${selectedArr.map(i => displayLabel(a.qIndex, i) + ') ' + q.options[i]).join(', ')}</div>
+              <div class="wrong-correct-answer">Correct: ${correctArr.map(i => displayLabel(a.qIndex, i) + ') ' + q.options[i]).join(', ')}</div>
               <div class="wrong-explanation">${q.explanation}</div>
             </div>`;
           }).join('')}
@@ -297,6 +326,7 @@ const Quiz = (() => {
       state.currentIndex = 0;
       state.answers = [];
       state.answered = false;
+      state.shuffledOrders = {};
       state.startTime = Date.now();
       if (state.timerEnabled) {
         state.timerSeconds = state.questions.length * 90;
