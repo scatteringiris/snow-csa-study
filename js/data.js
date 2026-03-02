@@ -1,1422 +1,1411 @@
 const DOMAINS = {
   "platform-overview": { name: "Platform Overview & Navigation", weight: 7, color: "#4CAF50" },
-  "instance-config": { name: "Instance Configuration", weight: 13, color: "#2196F3" },
+  "instance-config": { name: "Instance Configuration", weight: 10, color: "#2196F3" },
   "collaboration": { name: "Configuring Apps for Collaboration", weight: 20, color: "#FF9800" },
   "self-service-automation": { name: "Self-Service & Process Automation", weight: 20, color: "#9C27B0" },
-  "database-security": { name: "Database Management & Platform Security", weight: 25, color: "#F44336" },
-  "migration-scripting": { name: "Data Migration & Integration / Scripting", weight: 15, color: "#00BCD4" }
+  "database-security": { name: "Database Management & Platform Security", weight: 30, color: "#F44336" },
+  "migration-scripting": { name: "Data Migration & Integration / Scripting", weight: 13, color: "#00BCD4" }
 };
 
 const QUESTIONS = [
-  // ========== DOMAIN 1: Platform Overview & Navigation (15 questions) ==========
   {
     id: 1, domain: "platform-overview", type: "single",
-    question: "What is the primary purpose of a Personal Developer Instance (PDI) in ServiceNow?",
-    options: ["To host production data for a customer", "To provide a free instance for learning and development", "To run automated tests in a CI/CD pipeline", "To serve as a disaster recovery environment"],
-    correct: 1,
-    explanation: "A Personal Developer Instance (PDI) is a free ServiceNow instance provided for learning, development, and testing purposes. It is not meant for production data or DR."
+    question: "ServiceNow is an example of which cloud computing model?",
+    options: ["aPaaS (Application Platform as a Service)", "PaaS (Platform as a Service)", "IaaS (Infrastructure as a Service)", "SaaS (Software as a Service)"],
+    correct: 0,
+    explanation: "ServiceNow is classified as aPaaS (Application Platform as a Service). It provides a cloud-based application development platform that allows customers to build, deploy, and manage enterprise applications."
   },
   {
     id: 2, domain: "platform-overview", type: "single",
-    question: "Which ServiceNow interface is the default modern UI experience introduced to replace UI16?",
-    options: ["UI15", "Service Portal", "Next Experience (Unified Navigation)", "Classic UI"],
+    question: "What are the three main areas of the ServiceNow user interface in Next Experience?",
+    options: ["Menu, Workspace, Dashboard", "Header, Sidebar, Footer", "Banner, App Navigator, Content Frame", "Toolbar, Navigation Pane, Detail View"],
+    correct: 2,
+    explanation: "The three main areas of the ServiceNow UI are the Banner (top bar), App Navigator (left side for browsing modules), and Content Frame (main area displaying content)."
+  },
+  {
+    id: 3, domain: "platform-overview", type: "multi",
+    question: "From the User menu in ServiceNow, which actions can a user select? (Choose 3)",
+    options: ["Impersonate Users", "Send Notifications", "Log Out ServiceNow", "Elevate Roles", "Order from Service Catalog"],
+    correct: [0,2,3],
+    explanation: "From the User menu, users can Log Out, Elevate Roles (if high security plugin is active), and Impersonate Users (if they have the admin role). Sending notifications and ordering from the catalog are not User menu actions."
+  },
+  {
+    id: 4, domain: "platform-overview", type: "single",
+    question: "Which of the following does NOT appear in the Application Navigator History section?",
+    options: ["Forms", "Lists", "UI Pages", "Records"],
+    correct: 2,
+    explanation: "The Application Navigator History section tracks recently visited records, lists, and forms but does not track UI Pages."
+  },
+  {
+    id: 5, domain: "platform-overview", type: "single",
+    question: "\"UAT, Development, Review, QA, and Test are user perspectives of the ServiceNow production instance.\" Is this statement true or false?",
+    options: ["False, these are deprecated terminology", "True, but only in enterprise editions", "False, these are separate instances not perspectives", "True, they are different views within production"],
+    correct: 2,
+    explanation: "This is false. UAT, Development, QA, and Test are separate ServiceNow instances, not perspectives within a single production instance. Each has its own URL and data."
+  },
+  {
+    id: 6, domain: "platform-overview", type: "single",
+    question: "What term refers to application menus that users access quickly and often in the Navigator?",
+    options: ["Tag", "Bookmark", "Favorite", "Breadcrumb"],
+    correct: 2,
+    explanation: "Favorites allow users to mark frequently accessed application menus and modules for quick access in the Navigator. Breadcrumbs show the navigation path, and tags are used to categorize records."
+  },
+  {
+    id: 7, domain: "platform-overview", type: "single",
+    question: "What is the primary purpose of a Personal Developer Instance (PDI) in ServiceNow?",
+    options: ["To provide a free instance for learning and development", "To host production data for a customer", "To serve as a disaster recovery environment", "To run automated tests in a CI/CD pipeline"],
+    correct: 0,
+    explanation: "A Personal Developer Instance (PDI) is a free ServiceNow instance provided for learning, development, and testing purposes. It is available at developer.servicenow.com."
+  },
+  {
+    id: 8, domain: "platform-overview", type: "single",
+    question: "Which ServiceNow interface is the default modern UI experience that replaced UI16?",
+    options: ["UI15", "Classic UI", "Next Experience (Unified Navigation)", "Service Portal"],
     correct: 2,
     explanation: "Next Experience (also called Unified Navigation or Polaris) is the modern UI framework that replaces UI16 as the default navigation experience."
   },
   {
-    id: 3, domain: "platform-overview", type: "single",
-    question: "In the Next Experience UI, where do users access applications and modules?",
-    options: ["The banner frame at the top", "The Application Navigator (All menu)", "The context menu on forms", "The homepage widgets"],
-    correct: 1,
-    explanation: "In Next Experience, the Application Navigator is accessed via the 'All' menu on the left side, allowing users to browse and search for applications and modules."
-  },
-  {
-    id: 4, domain: "platform-overview", type: "single",
+    id: 9, domain: "platform-overview", type: "single",
     question: "What is the typical instance promotion path in ServiceNow?",
-    options: ["Production → Test → Development", "Development → Test → Production", "Development → Production → Test", "Test → Development → Production"],
-    correct: 1,
-    explanation: "The standard instance promotion path is Development → Test → Production. Changes are built in dev, validated in test, and deployed to production."
+    options: ["Test to Development to Production", "Development to Production to Test", "Development to Test to Production", "Production to Test to Development"],
+    correct: 2,
+    explanation: "The standard instance promotion path is Development to Test to Production. Changes are built in dev, validated in test, and deployed to production."
   },
   {
-    id: 5, domain: "platform-overview", type: "single",
-    question: "A user wants to quickly navigate to the Incident table in Next Experience. What is the fastest method?",
-    options: ["Click All, then browse through menus", "Type 'incident.list' in the Application Navigator filter", "Open System Properties", "Navigate to the CMDB"],
-    correct: 1,
+    id: 10, domain: "platform-overview", type: "single",
+    question: "A user wants to quickly navigate to the Incident list. What is the fastest method in the Application Navigator?",
+    options: ["Click All and browse through every menu", "Open System Properties and search", "Type 'incident.list' in the filter navigator", "Navigate to the CMDB module first"],
+    correct: 2,
     explanation: "Typing 'incident.list' (or just 'incident') in the Application Navigator filter is the fastest way to navigate directly to the Incident list."
   },
   {
-    id: 6, domain: "platform-overview", type: "single",
-    question: "Which of the following best describes the ServiceNow platform?",
-    options: ["An on-premises-only help desk tool", "A cloud-based platform for digital workflows built on a single data model", "A code-only development framework", "A database management system"],
-    correct: 1,
-    explanation: "ServiceNow is a cloud-based platform that provides digital workflow automation across the enterprise, built on a single data model and architecture."
-  },
-  {
-    id: 7, domain: "platform-overview", type: "single",
-    question: "What does the 'Favorites' feature allow users to do in ServiceNow?",
-    options: ["Bookmark external websites", "Pin frequently used applications and modules for quick access", "Save filter conditions on lists", "Create custom dashboards"],
-    correct: 1,
-    explanation: "Favorites allow users to pin frequently accessed applications, modules, and records for quick access from the navigator."
-  },
-  {
-    id: 8, domain: "platform-overview", type: "single",
-    question: "Which of the following is NOT a standard ServiceNow instance type?",
-    options: ["Development", "Test", "Staging", "Production"],
-    correct: 2,
-    explanation: "The standard ServiceNow instance types are Development, Test, and Production. While some organizations may have additional sub-production instances, 'Staging' is not a standard ServiceNow instance type designation."
-  },
-  {
-    id: 9, domain: "platform-overview", type: "single",
-    question: "What is a 'view' in ServiceNow?",
-    options: ["A type of report", "A way to display different layouts of the same form or list", "A dashboard widget", "A type of user role"],
-    correct: 1,
-    explanation: "A view defines which fields are displayed and their arrangement on a form or list. Multiple views can exist for the same table, showing different field layouts for different purposes."
-  },
-  {
-    id: 10, domain: "platform-overview", type: "multi",
-    question: "Which of the following are components of the Next Experience UI? (Choose two)",
-    options: ["Unified Navigation", "Content frame", "Banner frame (UI16 only)", "Classic CMS"],
-    correct: [0, 1],
-    explanation: "Next Experience UI includes Unified Navigation (the left-side All menu and navigation) and the Content frame (where forms, lists, and other content are displayed). Banner frame is UI16 and Classic CMS is a legacy portal."
-  },
-  {
     id: 11, domain: "platform-overview", type: "single",
-    question: "What happens to a PDI if it is not accessed for a period of time?",
-    options: ["It is permanently deleted", "It goes to sleep (hibernate) and can be woken up", "It is automatically upgraded", "It transfers to production"],
-    correct: 1,
-    explanation: "PDIs hibernate after a period of inactivity. They can be woken up by logging in, but may eventually be reclaimed if inactive for an extended period."
+    question: "How do administrators check which ServiceNow release version is currently running on their instance?",
+    options: ["Transactions log", "Upgraded table", "Stats module or stats.do", "Memory Stats module"],
+    correct: 2,
+    explanation: "Admins can check the current release by navigating to stats.do in the browser or using the Stats module. This shows system information including the build version and release."
   },
   {
     id: 12, domain: "platform-overview", type: "single",
-    question: "Which URL pattern is used to access a ServiceNow instance?",
-    options: ["www.servicenow.com/instance", "instance-name.service-now.com", "servicenow://instance-name", "instance-name.servicenow.local"],
-    correct: 1,
-    explanation: "ServiceNow instances are accessed via the URL pattern: instance-name.service-now.com (e.g., mycompany.service-now.com)."
+    question: "Which of the following best describes the ServiceNow platform?",
+    options: ["An on-premises-only help desk tool", "A database management system for SQL queries", "A cloud-based platform for digital workflows built on a single data model", "A code-only development framework requiring Java"],
+    correct: 2,
+    explanation: "ServiceNow is a cloud-based platform for digital workflows. It uses a single data model architecture that allows different applications to share and reference the same data."
   },
   {
     id: 13, domain: "platform-overview", type: "single",
-    question: "What is the function of the global search in Next Experience?",
-    options: ["It only searches for user records", "It searches across multiple tables and returns results from various record types", "It replaces the Application Navigator", "It only works with Knowledge articles"],
-    correct: 1,
-    explanation: "Global search in Next Experience searches across multiple tables simultaneously, returning results from incidents, knowledge articles, catalog items, and other configured record types."
+    question: "What search engine does ServiceNow use for text searching?",
+    options: ["Apache Solr", "Elasticsearch", "Zing", "Lucene"],
+    correct: 2,
+    explanation: "ServiceNow uses Zing as its built-in text search engine. Zing indexes text fields and provides full-text search capabilities across the platform."
   },
   {
     id: 14, domain: "platform-overview", type: "single",
-    question: "In ServiceNow, what is a 'module'?",
-    options: ["A JavaScript library", "A link within an application menu that opens a page, list, or record", "A type of database table", "A security role"],
-    correct: 1,
-    explanation: "A module is a menu item within an application that navigates to a specific page, list, form, or URL when clicked in the Application Navigator."
+    question: "Why would an administrator use user impersonation in ServiceNow?",
+    options: ["Testing and verifying what a user sees and can access", "To grant admin privileges to another user temporarily", "To permanently change another user's password", "To delete another user's records"],
+    correct: 0,
+    explanation: "User impersonation is used for testing and visibility purposes. Admins can impersonate other users to see the platform from their perspective, verify permissions, and troubleshoot issues."
   },
   {
-    id: 15, domain: "platform-overview", type: "single",
-    question: "Which feature allows administrators to see the platform exactly as another user would?",
-    options: ["User delegation", "Impersonation", "Role elevation", "Session debugging"],
-    correct: 1,
-    explanation: "Impersonation allows administrators to log in as another user to see the platform from their perspective, including their roles, groups, and data access. This is useful for troubleshooting."
+    id: 15, domain: "instance-config", type: "single",
+    question: "Which path is used to define and maintain record number prefixes (like INC, CHG) in ServiceNow?",
+    options: ["System Properties > Number Format", "Number field > Number", "System Definition > Numbers", "System Definition > Number maintenance"],
+    correct: 3,
+    explanation: "Record number prefixes are configured under System Definition > Number maintenance. This is where you define the prefix (e.g., INC for incidents) and the number of digits."
   },
-
-  // ========== DOMAIN 2: Instance Configuration (25 questions) ==========
   {
     id: 16, domain: "instance-config", type: "single",
-    question: "How are plugins activated in a ServiceNow instance?",
-    options: ["By editing XML files on the server", "Through System Definition > Plugins", "By importing an update set", "Through the Service Catalog"],
-    correct: 1,
-    explanation: "Plugins are activated through System Definition > Plugins. Administrators search for the desired plugin and click Activate to enable its functionality."
+    question: "Which is true about a table with the 'Allow configuration' Application Access option selected?",
+    options: ["Out of scope applications can create Business Rules for the table", "Any user with the user role can modify the application scripts", "Only in-scope application scripts can create Business Rules for it", "Out of scope applications can add new tables to the scoped application"],
+    correct: 0,
+    explanation: "When 'Allow configuration' is selected in Application Access, it allows out-of-scope applications to create configurations like Business Rules for that table."
   },
   {
     id: 17, domain: "instance-config", type: "single",
-    question: "What is the purpose of System Properties in ServiceNow?",
-    options: ["To define table schemas", "To configure system-wide settings and behaviors", "To create user accounts", "To design forms"],
-    correct: 1,
-    explanation: "System Properties are name-value pairs that control system-wide settings and behaviors, such as enabling features, setting defaults, and configuring integrations."
+    question: "Where would you go to see if an admin impersonated another user?",
+    options: ["System Log", "Base Class viewer", "Tables module", "User Administration module"],
+    correct: 0,
+    explanation: "Impersonation events are recorded in the System Log. Administrators can review the log to see who impersonated whom and when."
   },
   {
     id: 18, domain: "instance-config", type: "single",
-    question: "An administrator needs to change the company logo displayed in the banner. Where should they go?",
-    options: ["System Properties > CSS", "System Properties > Basic Configuration UI16", "System UI > Branding Editor", "System Definition > Plugins"],
-    correct: 1,
-    explanation: "The company logo and banner can be configured through System Properties > Basic Configuration UI16 (or the appropriate branding settings for Next Experience)."
+    question: "How do you get to categories on an incident or other table in ServiceNow?",
+    options: ["Go to System Definition > Choice List", "In the task SLA form", "Go to Social IT > Feed Administration > Messages", "Base Class viewer"],
+    correct: 0,
+    explanation: "Categories and other choice values for fields on tables are managed under System Definition > Choice List. This is where you can view and modify the available choices."
   },
   {
     id: 19, domain: "instance-config", type: "single",
-    question: "Which property controls the maximum number of records displayed in a list?",
-    options: ["glide.ui.list.page_size", "glide.ui.max_records", "glide.list.max_display", "glide.ui.per_page"],
-    correct: 3,
-    explanation: "The glide.ui.per_page property controls the default number of records shown per page in list views."
+    question: "How do you deactivate an application in ServiceNow?",
+    options: ["Delete the application from the instance", "Remove all roles associated with the application", "Click the pencil icon in Application Navigator and uncheck Active", "Disable the application plugin from System Plugins"],
+    correct: 2,
+    explanation: "To deactivate an application, click the pencil icon in the Application Navigator and uncheck the Active checkbox. This hides the application without deleting it."
   },
   {
     id: 20, domain: "instance-config", type: "single",
-    question: "What must happen before a plugin can be activated on a production instance?",
-    options: ["It must be approved by ServiceNow support", "It should be tested on a sub-production instance first", "It requires a system reboot", "It must be purchased separately"],
-    correct: 1,
-    explanation: "Best practice dictates that plugins should be activated and tested on a sub-production (dev/test) instance before being activated in production to avoid unexpected issues."
+    question: "Which ServiceNow feature will NOT run natively on smartphones?",
+    options: ["User Administration", "Workflow execution", "Service Catalogue", "Self-Service"],
+    correct: 0,
+    explanation: "User Administration is not available natively on smartphones. Self-Service, Service Catalogue, and workflow execution are supported through the Now Mobile app."
   },
   {
     id: 21, domain: "instance-config", type: "single",
-    question: "What is the effect of impersonating a user?",
-    options: ["The admin's roles are combined with the impersonated user's roles", "The admin sees the system exactly as the impersonated user would, with only that user's roles and permissions", "The impersonated user is logged out", "Both users share a session simultaneously"],
-    correct: 1,
-    explanation: "When impersonating a user, the admin assumes that user's identity completely, seeing only their roles, permissions, and data access. The admin's own roles are not combined."
+    question: "Which path leads to the table configuration page from a form?",
+    options: ["Form Context menu > Configure > Table", "Form Context menu > View > Show Table", "Form Context menu > Configure > Dictionary", "Form Context menu > View > Table"],
+    correct: 0,
+    explanation: "To access the table configuration page from a form, right-click the form header and select Configure > Table from the context menu."
   },
   {
     id: 22, domain: "instance-config", type: "single",
-    question: "Which of the following can be configured through the System Properties > Email module?",
-    options: ["Table schemas", "SMTP server settings and email properties", "ACL rules", "Business rules"],
-    correct: 1,
-    explanation: "Email properties including SMTP server settings, email sending/receiving behavior, and notification defaults are configured through System Properties > Email."
+    question: "What is the difference between personalizing and customizing in ServiceNow?",
+    options: ["Personalizing requires admin role; customizing does not", "Personalizing changes apply to all users; customizing changes apply to one user", "They are interchangeable terms with the same meaning", "Personalizing affects only the current user's view; customizing affects all users"],
+    correct: 3,
+    explanation: "Personalizing changes the experience for the individual user only (e.g., list columns, homepage layout). Customizing changes the experience for all users (e.g., adding fields to a form, modifying business rules)."
   },
   {
     id: 23, domain: "instance-config", type: "single",
-    question: "What is user delegation in ServiceNow?",
-    options: ["Assigning a user to a group", "Allowing a user to act on behalf of another user for approvals and tasks", "Creating a new user account from a template", "Granting admin rights to a user"],
-    correct: 1,
-    explanation: "User delegation allows a user to designate another user to act on their behalf for approvals and other tasks during a specified time period (e.g., during vacation)."
+    question: "Which of the following are common ServiceNow user interfaces?",
+    options: ["Platform UI, Service Portal, Workspace, and Now Mobile", "Platform UI, Eclipse IDE, Service Portal, and Terminal", "Classic UI, Modern UI, API Console, and Studio", "Service Portal, Workspace, Command Line, and REST Explorer"],
+    correct: 0,
+    explanation: "The common ServiceNow user interfaces are Platform UI (the main admin interface), Service Portal (end-user portal), Workspace (agent workspace), and Now Mobile (mobile application)."
   },
   {
-    id: 24, domain: "instance-config", type: "multi",
-    question: "Which of the following are valid methods to personalize the ServiceNow interface? (Choose two)",
-    options: ["Setting a personal theme/dark mode", "Modifying system-wide ACLs", "Configuring personal list layouts", "Editing the data dictionary"],
-    correct: [0, 2],
-    explanation: "Users can personalize their interface by setting personal themes and configuring personal list layouts (column choices). ACLs and data dictionary are admin-level configurations, not personalizations."
+    id: 24, domain: "instance-config", type: "single",
+    question: "Which application is available to all users in ServiceNow by default?",
+    options: ["Facilities", "Incident", "Self Service", "Change"],
+    correct: 2,
+    explanation: "Self Service is available to all users by default. Applications like Change, Incident, and Facilities require specific roles to access."
   },
   {
     id: 25, domain: "instance-config", type: "single",
-    question: "What is the difference between a System Property and a User Preference?",
-    options: ["They are the same thing", "System Properties affect all users; User Preferences are per-user settings", "User Preferences override System Properties always", "System Properties are only for admins"],
-    correct: 1,
-    explanation: "System Properties are system-wide settings that affect all users, while User Preferences are per-user settings that allow individual customization of their experience."
+    question: "To grant the 'admin' role to a user, the granting user must have which role?",
+    options: ["Admin", "Super_user", "User_admin", "Security_admin"],
+    correct: 0,
+    explanation: "To grant the admin role, the granting user must already have the admin role. Only administrators can assign the admin role to other users."
   },
   {
     id: 26, domain: "instance-config", type: "single",
-    question: "An administrator activates a plugin and notices new tables and modules. What caused this?",
-    options: ["A bug in the system", "Plugins can add tables, modules, business rules, and other components when activated", "Another administrator made changes simultaneously", "The instance was upgraded"],
-    correct: 1,
-    explanation: "When a plugin is activated, it installs all associated components including tables, modules, business rules, UI pages, and other configurations that the plugin requires."
+    question: "Where do you install applications and plugins in ServiceNow?",
+    options: ["System Applications > All Available Applications", "Administration > Plugin Manager", "System Properties > Plugins", "System Definition > Application Menus"],
+    correct: 0,
+    explanation: "Applications and plugins are installed from System Applications > All Available Applications (or the ServiceNow Store). This interface shows both installed and available applications."
   },
   {
     id: 27, domain: "instance-config", type: "single",
-    question: "Which table stores system properties in ServiceNow?",
-    options: ["sys_user_preference", "sys_properties", "sys_configuration", "sys_settings"],
-    correct: 1,
-    explanation: "System properties are stored in the sys_properties table. Each property has a name, value, and description."
+    question: "What happens when you activate a plugin in ServiceNow?",
+    options: ["It requires a full instance restart before taking effect", "It only downloads the plugin files for later installation", "It replaces existing configurations with plugin defaults", "It adds new tables, roles, properties, and other components to the instance"],
+    correct: 3,
+    explanation: "Activating a plugin adds its components (tables, roles, properties, demo data, etc.) to the instance. It extends the instance without replacing existing configurations."
   },
   {
     id: 28, domain: "instance-config", type: "single",
-    question: "What is the purpose of the 'glide.ui.session_timeout' property?",
-    options: ["To set the maximum number of concurrent users", "To define how long a user session stays active before timing out", "To configure the login page display", "To set password expiration"],
-    correct: 1,
-    explanation: "The glide.ui.session_timeout property defines the duration (in minutes) a user session remains active before the user is automatically logged out due to inactivity."
+    question: "Which user interface is best suited for IT agents handling multiple tasks simultaneously?",
+    options: ["Now Mobile", "Service Portal", "Platform UI Classic", "Agent Workspace"],
+    correct: 3,
+    explanation: "Agent Workspace is designed specifically for IT agents to handle multiple tasks efficiently. It provides a tabbed interface, contextual side panels, and built-in collaboration tools."
   },
   {
     id: 29, domain: "instance-config", type: "single",
-    question: "How can an administrator restrict which plugins can be activated?",
-    options: ["Plugins cannot be restricted", "By requiring the 'admin' role and following change management processes", "By deleting the plugin files", "By setting a system property to false"],
-    correct: 1,
-    explanation: "Plugin activation requires the admin role. Organizations should follow change management processes and test plugins in sub-production before activating in production."
+    question: "What module is used to configure system-wide settings like company name and banner text?",
+    options: ["System Definition > Configuration", "System UI > Brand", "System Properties", "System Applications > Settings"],
+    correct: 2,
+    explanation: "System Properties is used to configure system-wide settings including company name, banner text, date formats, and many other instance-level configurations."
   },
   {
     id: 30, domain: "instance-config", type: "single",
-    question: "What is the Branding Editor used for in Next Experience?",
-    options: ["Writing custom CSS only", "Customizing the look and feel including logo, colors, and favicon", "Managing user accounts", "Configuring email templates"],
-    correct: 1,
-    explanation: "The Branding Editor in Next Experience allows administrators to customize visual elements including the company logo, color scheme, favicon, and other branding elements."
+    question: "Which setting controls what users see on their ServiceNow homepage?",
+    options: ["System UI > Homepage", "Self-Service > Homepage", "System Properties > Homepage", "Content Management > Pages"],
+    correct: 0,
+    explanation: "System UI > Homepage is where administrators configure the default homepage content and layout that users see when they log in."
   },
   {
     id: 31, domain: "instance-config", type: "single",
-    question: "Which of the following is true about deactivating a plugin?",
-    options: ["All data associated with the plugin is immediately deleted", "Not all plugins can be deactivated; some are dependencies for other plugins", "Deactivating always requires a ServiceNow support ticket", "Deactivated plugins are removed from the instance permanently"],
-    correct: 1,
-    explanation: "Not all plugins can be deactivated, especially if other active plugins depend on them. Deactivating a plugin does not delete data but disables the functionality."
+    question: "In the Settings menu accessible from the gear icon, which categories of settings are available?",
+    options: ["General, Theme, Notifications, Lists, Forms, and Developer", "General, Security, Database, Network, and API", "Profile, Language, Timezone, and Currency", "Display, Accessibility, Audio, and Privacy"],
+    correct: 0,
+    explanation: "The Settings menu (gear icon) provides categories: General, Theme, Notifications, Lists, Forms, and Developer. These allow users to personalize their experience."
   },
   {
     id: 32, domain: "instance-config", type: "single",
-    question: "An admin wants to display a custom message on the login page. Which approach should they use?",
-    options: ["Edit the HTML of the login page directly", "Configure the login page system properties", "Create a UI Page", "Modify the database schema"],
-    correct: 1,
-    explanation: "ServiceNow provides system properties to customize the login page, including adding custom messages, configuring the background image, and adjusting the layout."
+    question: "What is the purpose of the Application Scope in ServiceNow?",
+    options: ["To restrict how applications interact with each other and protect resources", "To limit the number of users who can access an application", "To define the geographic region where the app is deployed", "To set the maximum number of records an application can create"],
+    correct: 0,
+    explanation: "Application Scope restricts how applications interact with each other. It protects application resources by controlling which other applications can access its tables, scripts, and configurations."
   },
   {
     id: 33, domain: "instance-config", type: "single",
-    question: "What is the purpose of the 'glide.ui.compact_list' property?",
-    options: ["To enable a condensed list view with less whitespace", "To limit the number of list columns", "To disable list pagination", "To sort lists alphabetically"],
+    question: "What is the function of the Update Set picker in the ServiceNow banner?",
+    options: ["It specifies which Update Set captures configuration changes", "It controls the current user session timeout", "It selects which database to connect to", "It determines the current application scope"],
     correct: 0,
-    explanation: "The glide.ui.compact_list property, when set to true, enables a more compact/condensed display of list views with reduced whitespace between rows."
+    explanation: "The Update Set picker in the banner allows administrators to select which Update Set will capture their configuration changes. All modifications are recorded in the selected Update Set."
   },
   {
-    id: 34, domain: "instance-config", type: "multi",
-    question: "Which of the following are considered instance configuration activities? (Choose two)",
-    options: ["Activating plugins", "Writing business rules", "Setting system properties", "Creating GlideRecord scripts"],
-    correct: [0, 2],
-    explanation: "Instance configuration includes non-scripting activities like activating plugins and setting system properties. Writing business rules and GlideRecord scripts are development/scripting activities."
-  },
-  {
-    id: 35, domain: "instance-config", type: "single",
-    question: "How does ServiceNow handle instance upgrades?",
-    options: ["Customers must manually download and install patches", "ServiceNow manages upgrades on a regular release cycle; customers choose when to upgrade", "Upgrades happen automatically without notice", "Instances cannot be upgraded once deployed"],
-    correct: 1,
-    explanation: "ServiceNow manages the upgrade process through its regular release cycle (family releases). Customers work with ServiceNow to schedule their upgrade window."
-  },
-  {
-    id: 36, domain: "instance-config", type: "single",
-    question: "What is the purpose of the 'Welcome' page or homepage in ServiceNow?",
-    options: ["To display the login form", "To provide a configurable dashboard landing page with widgets and reports", "To show system error logs", "To manage plugins"],
-    correct: 1,
-    explanation: "The homepage serves as a configurable dashboard landing page where users see relevant widgets, reports, and information when they first log in."
-  },
-  {
-    id: 37, domain: "instance-config", type: "single",
-    question: "Which notification channel is NOT natively supported in ServiceNow?",
-    options: ["Email", "SMS", "Push notifications", "Fax"],
-    correct: 3,
-    explanation: "ServiceNow natively supports email, SMS, and push notifications as notification channels. Fax is not a natively supported notification channel."
-  },
-  {
-    id: 38, domain: "instance-config", type: "single",
-    question: "What role is typically required to impersonate another user?",
-    options: ["itil", "user_admin", "admin or impersonator", "security_admin"],
+    id: 34, domain: "instance-config", type: "single",
+    question: "Which role allows a user to add or remove fields from a list view?",
+    options: ["admin", "list_admin", "personalize_list", "itil"],
     correct: 2,
-    explanation: "The admin role has impersonation capability by default. The 'impersonator' role can also be granted to allow specific users to impersonate others without full admin access."
+    explanation: "The personalize_list role allows users to add or remove fields from their personal list view. The admin role also has this ability, but personalize_list is the specific role for this purpose."
   },
   {
-    id: 39, domain: "instance-config", type: "single",
-    question: "Which system property controls whether users can personalize their list columns?",
-    options: ["glide.ui.list_personalize", "glide.ui.personalize_list", "glide.ui.list.allow_personalize", "glide.cms.enable_personalize"],
-    correct: 1,
-    explanation: "The glide.ui.personalize_list property controls whether end users are allowed to personalize their list column layouts."
+    id: 35, domain: "collaboration", type: "single",
+    question: "Which allows editing field values in a list without opening the form?",
+    options: ["Edit Menu", "Data Editor", "List Editor", "Form Designer"],
+    correct: 2,
+    explanation: "The List Editor allows users to edit field values directly in the list view by double-clicking on a cell, without needing to open the full form."
   },
   {
-    id: 40, domain: "instance-config", type: "single",
-    question: "What is the recommended approach when configuring email notifications for the first time?",
-    options: ["Configure directly in production", "Set up and test in a sub-production instance, then move via update set", "Send test emails to all users", "Disable all existing notifications first"],
-    correct: 1,
-    explanation: "Email notifications should be configured and tested in a sub-production instance first, then promoted to production via update sets to avoid sending unintended emails to real users."
+    id: 36, domain: "collaboration", type: "single",
+    question: "What is the name of the string that displays filter criteria applied to a list?",
+    options: ["Bookmarks", "Tags", "Favorites", "Breadcrumbs"],
+    correct: 3,
+    explanation: "Breadcrumbs display the filter criteria currently applied to a list. They appear above the list and show the conditions being used to filter records."
   },
-
-  // ========== DOMAIN 3: Configuring Apps for Collaboration (40 questions) ==========
+  {
+    id: 37, domain: "collaboration", type: "single",
+    question: "Which module displays a list of tasks assigned to a user's group but not yet assigned to an individual user?",
+    options: ["My Groups Tasks", "My Groups Work", "My Teams Work", "My Teams Tasks"],
+    correct: 1,
+    explanation: "My Groups Work shows tasks assigned to the user's group that have not yet been assigned to a specific individual. This helps group members see unassigned work."
+  },
+  {
+    id: 38, domain: "collaboration", type: "single",
+    question: "What section on a task record shows the most recent updates made to the record?",
+    options: ["Journal", "Timeline", "Activity", "Audit Log"],
+    correct: 2,
+    explanation: "The Activity section (Activity Stream) on a task record shows the most recent updates, including work notes, comments, and field changes in chronological order."
+  },
+  {
+    id: 39, domain: "collaboration", type: "single",
+    question: "Which tool is used to have conversations with logged-in users in real-time?",
+    options: ["User Presence", "Connect Chat", "Comments", "Now Messenger"],
+    correct: 1,
+    explanation: "Connect Chat allows real-time conversations with logged-in users. It provides instant messaging capabilities within the ServiceNow platform."
+  },
+  {
+    id: 40, domain: "collaboration", type: "single",
+    question: "What is the purpose of a Related List on a form?",
+    options: ["Present related records from other tables", "Present related fields from the same record", "Dot-walk to a core table for referencing", "Create a one-to-many relationship between tables"],
+    correct: 0,
+    explanation: "A Related List presents related records from other tables on a form. For example, an Incident form may show a Related List of child tasks or associated change requests."
+  },
   {
     id: 41, domain: "collaboration", type: "single",
-    question: "What is a list view in ServiceNow?",
-    options: ["A form showing a single record", "A tabular display of multiple records from a table", "A dashboard widget", "A type of report"],
-    correct: 1,
-    explanation: "A list view displays multiple records from a table in a tabular format with configurable columns, filters, and sorting options."
+    question: "Column context menus on lists are used for which of the following?",
+    options: ["Displaying view form, viewing related tasks, and adding relationships", "Opening record producers, creating templates, and assigning records", "Displaying filtering options, assigning tags, and searching", "Creating quick reports, configuring the list, and exporting data"],
+    correct: 3,
+    explanation: "Column context menus (right-clicking a column header) provide options for creating quick reports, configuring the list layout, and exporting data from that column."
   },
   {
     id: 42, domain: "collaboration", type: "single",
-    question: "How can a user create a personal filter for a list?",
-    options: ["By modifying the table schema", "By using the filter builder (funnel icon) on the list and saving the filter", "By editing system properties", "By creating a new view"],
-    correct: 1,
-    explanation: "Users can create personal filters using the filter builder (funnel icon) above the list. Filters can be saved for quick reuse."
+    question: "What format does a condition builder use?",
+    options: ["Field > Operator > Name", "Name > Field > Condition", "Field > Operator > Value", "Field > Condition > Operator"],
+    correct: 2,
+    explanation: "The condition builder follows the format: Field > Operator > Value. For example, 'Priority > is > 1' or 'State > is > Active'."
   },
   {
     id: 43, domain: "collaboration", type: "single",
-    question: "What is a breadcrumb in the context of ServiceNow lists?",
-    options: ["A navigation trail showing the path to the current page", "A visual indicator of list filter conditions applied to refine the list", "A type of notification", "A bookmark feature"],
-    correct: 1,
-    explanation: "Breadcrumbs in ServiceNow lists show the filter conditions currently applied, allowing users to see and modify the active filters."
+    question: "How do you change the sort sequence of fields or tasks in ServiceNow?",
+    options: ["Modify the order field", "Modify Field Types", "Arrange in Alphabetical Order setting", "Variable Set configuration"],
+    correct: 0,
+    explanation: "The sort sequence of fields or tasks is controlled by modifying the order field. Lower values appear first in the display sequence."
   },
   {
     id: 44, domain: "collaboration", type: "single",
-    question: "Which of the following is used to add a related list to a form?",
-    options: ["List Controls", "Form Designer or Form Layout", "The Application Navigator", "System Properties"],
+    question: "\"Views are only for lists to personalize list layout and columns\" - Is this statement true or false?",
+    options: ["True, forms use a separate configuration mechanism", "False, views work for both lists and forms", "False, views only apply to forms", "True, views only apply to list layouts"],
     correct: 1,
-    explanation: "Related lists are added to forms using the Form Designer (or Form Layout/Form Design). Administrators can drag related lists onto the form layout."
+    explanation: "This statement is false. Views work for both lists AND forms. You can create different views of a form to show different field layouts for different purposes."
   },
   {
     id: 45, domain: "collaboration", type: "single",
-    question: "What is a formatter in ServiceNow form design?",
-    options: ["A script that formats data", "A non-field element added to a form layout (e.g., Activity formatter, Process flow)", "A CSS class for styling", "A data validation rule"],
+    question: "What can be used to automatically populate fields when creating a new record from a form?",
+    options: ["Formatters", "Template", "Assignment Rules", "Reference Qualifiers"],
     correct: 1,
-    explanation: "A formatter is a non-field UI element that can be added to a form layout, such as the Activity formatter (showing work notes/comments) or the Process Flow formatter."
+    explanation: "Templates can be used to automatically populate fields in a form when creating new records. They pre-fill field values to save time and ensure consistency."
   },
   {
     id: 46, domain: "collaboration", type: "single",
-    question: "What is the Task table in ServiceNow?",
-    options: ["A table that only stores incident records", "A base table that many work-related tables extend (incident, problem, change, etc.)", "A table for storing user preferences", "A reporting table"],
-    correct: 1,
-    explanation: "The Task [task] table is a base table that provides common fields (assignment, state, priority, etc.) to child tables like Incident, Problem, Change Request, and others."
+    question: "Which is NOT related to a UI Action?",
+    options: ["List Link", "Form Link", "Form Button", "Search"],
+    correct: 3,
+    explanation: "UI Actions create buttons, form links, and list links. Search is not a UI Action type. UI Actions can execute client-side or server-side scripts when triggered."
   },
   {
-    id: 47, domain: "collaboration", type: "multi",
-    question: "Which tables extend the Task table? (Choose two)",
-    options: ["Incident [incident]", "User [sys_user]", "Change Request [change_request]", "System Property [sys_properties]"],
-    correct: [0, 2],
-    explanation: "Incident and Change Request both extend the Task table, inheriting its common fields like assignment group, state, and priority. User and System Property are independent tables."
+    id: 47, domain: "collaboration", type: "single",
+    question: "A UI Action with order 110 displays after a UI Action with order 120. True or false?",
+    options: ["False, lower order numbers display first", "True, higher numbers display first", "False, order number has no effect on display position", "True, display order is reversed"],
+    correct: 0,
+    explanation: "False. Lower order numbers display first. A UI Action with order 110 would display before one with order 120."
   },
   {
     id: 48, domain: "collaboration", type: "single",
-    question: "What is a Visual Task Board (VTB)?",
-    options: ["A Gantt chart for project management", "A Kanban-style board that displays records as cards organized by lanes", "A type of report", "A workflow visualization tool"],
-    correct: 1,
-    explanation: "A Visual Task Board (VTB) is a Kanban-style board that displays records as draggable cards organized into lanes (columns), typically based on a state or category field."
+    question: "A gauge can be added to which of the following?",
+    options: ["Home Page", "Favorites", "User Profile", "Change Request"],
+    correct: 0,
+    explanation: "Gauges can be added to the Home Page. They provide visual indicators such as speedometers, progress bars, or dials that display real-time data on dashboards and homepages."
   },
   {
     id: 49, domain: "collaboration", type: "single",
-    question: "How can a VTB be created from a list of records?",
-    options: ["Only through the admin console", "By right-clicking the list header and selecting 'Show Visual Task Board'", "By creating a new report", "VTBs cannot be created from lists"],
-    correct: 1,
-    explanation: "Users can create a VTB directly from any list by right-clicking the list header or using the list context menu to select the Visual Task Board option."
+    question: "What type of UI functionality creates buttons, form links, and context menu items?",
+    options: ["UI Action", "Client Script", "UI Policy", "Business Rule"],
+    correct: 0,
+    explanation: "UI Actions create buttons, form links, and context menu items on forms and lists. They can execute both client-side and server-side scripts."
   },
   {
     id: 50, domain: "collaboration", type: "single",
-    question: "What are notifications in ServiceNow?",
-    options: ["System log entries", "Automated messages (email/SMS/push) triggered by events or conditions", "Dashboard widgets", "A type of workflow activity"],
-    correct: 1,
-    explanation: "Notifications are automated messages sent via email, SMS, or push notifications when specific events occur or conditions are met on records."
+    question: "What interface displays multiple performance analytics widgets on one screen?",
+    options: ["Dashboard", "Form", "List", "Timeline"],
+    correct: 0,
+    explanation: "A Dashboard displays multiple performance analytics widgets, reports, and gauges on a single screen, providing a consolidated view of key metrics."
   },
   {
     id: 51, domain: "collaboration", type: "single",
-    question: "Which condition can trigger a notification?",
-    options: ["Only when a record is created", "When a record is inserted, updated, or a specific event is fired", "Only through a manual button click", "Only through a scheduled job"],
+    question: "When using Performance Analytics, what kind of KPI signals support long-term workflow stability decisions?",
+    options: ["Stability signals", "Long-term signals", "Non-signals", "Anti-signals"],
     correct: 1,
-    explanation: "Notifications can be triggered when records are inserted, updated, or when specific events fire. They support conditions like 'record inserted', 'record updated', and event-based triggers."
+    explanation: "Long-term signals in Performance Analytics are used to make decisions that statistically support long-term workflow stability and process improvement."
   },
   {
-    id: 52, domain: "collaboration", type: "single",
-    question: "What is the purpose of a UI Action in ServiceNow?",
-    options: ["To define table relationships", "To add buttons, links, or context menu items that perform actions on forms and lists", "To create email templates", "To configure ACLs"],
-    correct: 1,
-    explanation: "UI Actions create buttons, links, or context menu items on forms and lists. They can run client-side scripts, server-side scripts, or both when clicked."
+    id: 52, domain: "collaboration", type: "multi",
+    question: "Reports can be created from which places in the platform? (Choose 2)",
+    options: ["Statistics module", "List column heading", "View / Run module", "Metrics module"],
+    correct: [1,2],
+    explanation: "Reports can be created from list column headings (right-click a column and select report options) and from the View/Run module under Reporting."
   },
   {
-    id: 53, domain: "collaboration", type: "single",
-    question: "An administrator wants to create a report showing the number of incidents by priority. Which report type is most appropriate?",
-    options: ["List report", "Bar chart or Pie chart", "Calendar report", "Trend report"],
-    correct: 1,
-    explanation: "A Bar chart or Pie chart is ideal for showing the count of records grouped by a category field like priority. Bar charts are good for comparison, pie charts for proportions."
+    id: 53, domain: "self-service-automation", type: "single",
+    question: "Which module would you use to create a new email notification for users affected by network outages?",
+    options: ["System Notification > Email > Notifications", "Administration > Notification Overview", "User Preferences > Email > Notifications", "System Properties > Email > Settings"],
+    correct: 0,
+    explanation: "New notifications are created under System Notification > Email > Notifications. This module lets you define who receives notifications, when they trigger, and what content they contain."
   },
   {
     id: 54, domain: "collaboration", type: "single",
-    question: "What is a pivot table report used for in ServiceNow?",
-    options: ["Displaying a simple list of records", "Showing data in a two-dimensional grid grouped by row and column fields", "Creating a timeline view", "Generating PDF documents"],
-    correct: 1,
-    explanation: "A pivot table report displays data in a two-dimensional matrix/grid, with one field as rows and another as columns, showing aggregate values at the intersections."
+    question: "What is the difference between Performance Analytics and Reporting in ServiceNow?",
+    options: ["There is no difference; they are the same feature", "Reporting tracks data over time; Performance Analytics shows real-time data only", "Performance Analytics runs reports faster than the Reporting module", "Performance Analytics tracks data over time with snapshots; Reporting shows data at the moment the report runs"],
+    correct: 3,
+    explanation: "Performance Analytics takes snapshots of data over time to show trends and patterns. Reporting shows data as it exists at the point in time the report is run."
   },
   {
     id: 55, domain: "collaboration", type: "single",
-    question: "Where are dashboards managed in ServiceNow?",
-    options: ["System Definition > Dashboards", "Self-Service > Dashboards or Performance Analytics > Dashboards", "System Properties > Dashboard Config", "The CMDB"],
+    question: "What is the purpose of a Visual Task Board (VTB) in ServiceNow?",
+    options: ["To define workflow activities for task routing", "To display tasks in a Kanban-style board for visual task management", "To create Gantt charts for project planning", "To generate automated reports about task completion"],
     correct: 1,
-    explanation: "Dashboards are typically managed through Self-Service > Dashboards or through Performance Analytics > Dashboards, where users can create, edit, and share dashboards."
+    explanation: "Visual Task Boards (VTBs) display tasks in a Kanban-style board format. Users can drag and drop tasks between lanes (e.g., Open, In Progress, Closed) for visual task management."
   },
   {
     id: 56, domain: "collaboration", type: "single",
-    question: "What is an SLA in ServiceNow?",
-    options: ["A type of user role", "A Service Level Agreement that defines expected response and resolution times for tasks", "A scripting language", "A type of notification"],
-    correct: 1,
-    explanation: "An SLA (Service Level Agreement) defines the expected timeframes for task response and resolution. ServiceNow tracks SLA compliance and can trigger escalations when SLAs are at risk."
+    question: "Which report type would you use to show the distribution of incidents by priority?",
+    options: ["Line chart", "Trend report", "Bar chart or pie chart", "Calendar report"],
+    correct: 2,
+    explanation: "A bar chart or pie chart is ideal for showing the distribution of incidents by priority, as they display categorical data in an easy-to-compare visual format."
   },
   {
     id: 57, domain: "collaboration", type: "single",
-    question: "Which SLA-related record tracks the actual elapsed time against an SLA definition?",
-    options: ["SLA Definition", "Task SLA", "SLA Workflow", "SLA Report"],
-    correct: 1,
-    explanation: "A Task SLA record is automatically created when a task meets the start conditions of an SLA Definition. It tracks the actual elapsed time, percentage complete, and breach status."
+    question: "How do you add a report to a dashboard in ServiceNow?",
+    options: ["Export the report and import it into the dashboard module", "Reports cannot be added to dashboards directly", "Use the 'Add to Dashboard' option from the report or add a widget from the dashboard editor", "Copy the report URL and paste it into a dashboard widget"],
+    correct: 2,
+    explanation: "Reports can be added to dashboards by using the 'Add to Dashboard' option from the report view, or by editing the dashboard and adding a report widget."
   },
   {
-    id: 58, domain: "collaboration", type: "single",
-    question: "What does the 'Group by' feature do on a list?",
-    options: ["Sorts the list alphabetically", "Groups records into collapsible sections based on a field value", "Filters out records", "Creates a new report"],
-    correct: 1,
-    explanation: "Group by organizes list records into collapsible sections based on the values of a selected field, making it easier to view related records together."
+    id: 58, domain: "self-service-automation", type: "single",
+    question: "Which notification trigger causes an email to be sent when a record is inserted into a table?",
+    options: ["Record updated", "Record queried", "Record inserted", "Record deleted"],
+    correct: 2,
+    explanation: "The 'Record inserted' trigger causes an email notification to be sent when a new record is created in the specified table."
   },
   {
-    id: 59, domain: "collaboration", type: "single",
-    question: "How can an administrator make a field mandatory on a form?",
-    options: ["Only through a client script", "Through the dictionary, UI Policy, or client script", "Only through the data dictionary", "Through the ACL system"],
+    id: 59, domain: "self-service-automation", type: "single",
+    question: "What is the purpose of an email template in ServiceNow notifications?",
+    options: ["To define which users receive the notification", "To define reusable email content with dynamic field values", "To filter which records trigger notifications", "To schedule when notifications are sent"],
     correct: 1,
-    explanation: "Fields can be made mandatory through multiple methods: setting the Mandatory attribute in the dictionary, using a UI Policy, or using a client script. The best method depends on whether it should always be mandatory or conditional."
+    explanation: "Email templates define reusable email content that can include dynamic field values using variables. They standardize notification content and can be referenced by multiple notification records."
   },
   {
     id: 60, domain: "collaboration", type: "single",
-    question: "What is the difference between a 'form view' and a 'list view'?",
-    options: ["They are the same thing", "A form view shows a single record's details; a list view shows multiple records in a table", "A form view is for admins; a list view is for end users", "A list view cannot be customized"],
+    question: "What are the main components of a form in ServiceNow?",
+    options: ["Tabs, panels, and widgets arranged in a grid", "Sections, fields, related lists, and formatters", "Header, body, and footer sections with navigation buttons", "Title bar, menu bar, and content area"],
     correct: 1,
-    explanation: "A form view displays the details of a single record with its fields, while a list view shows multiple records from a table in a tabular format with configurable columns."
+    explanation: "A ServiceNow form consists of sections (grouping fields), fields (data entry elements), related lists (showing related records), and formatters (special elements like activity streams)."
   },
   {
-    id: 61, domain: "collaboration", type: "multi",
-    question: "Which of the following are valid report types in ServiceNow? (Choose two)",
-    options: ["Trend report", "Gantt chart", "Donut chart", "Network diagram"],
-    correct: [0, 2],
-    explanation: "ServiceNow supports various report types including Trend (showing data over time), Bar, Pie, Donut, List, Pivot, and others. Gantt charts and network diagrams are not standard report types."
+    id: 61, domain: "collaboration", type: "single",
+    question: "What tool is used to configure the layout of a form, including adding and arranging sections and fields?",
+    options: ["Schema Map", "List Editor", "Form Designer", "Table Builder"],
+    correct: 2,
+    explanation: "Form Designer is a drag-and-drop tool used to configure form layouts. It allows administrators to add, remove, and rearrange sections, fields, and formatters on a form."
   },
   {
     id: 62, domain: "collaboration", type: "single",
-    question: "What is the Activity formatter used for on a form?",
-    options: ["Displaying workflow activities", "Showing work notes, additional comments, and the activity stream on a record", "Formatting date fields", "Creating automated activities"],
-    correct: 1,
-    explanation: "The Activity formatter displays the activity stream on a form, including work notes, additional comments, and other journal entries in chronological order."
+    question: "Which type of filter in ServiceNow can be saved and shared with other users?",
+    options: ["Saved filter with visibility set to Everyone", "Column filter", "Quick filter", "Personal filter only"],
+    correct: 0,
+    explanation: "Saved filters can be configured with visibility set to 'Everyone' so they are shared with all users. Personal filters are only visible to the user who created them."
   },
   {
     id: 63, domain: "collaboration", type: "single",
-    question: "A manager wants a weekly email showing all open incidents assigned to their team. What should be configured?",
-    options: ["A UI Action", "A scheduled report", "A client script", "A business rule"],
-    correct: 1,
-    explanation: "A scheduled report can be configured to automatically email report results on a recurring schedule (daily, weekly, monthly) to specified recipients."
+    question: "What is the purpose of tags in ServiceNow lists?",
+    options: ["To set priority levels on task records", "To define access control permissions", "To trigger automated workflows on tagged records", "To create visual categories for organizing and quickly finding records"],
+    correct: 3,
+    explanation: "Tags allow users to create visual categories to organize and quickly find records. Tags are personal and can be applied to any record for easy filtering."
   },
   {
     id: 64, domain: "collaboration", type: "single",
-    question: "What is 'dot-walking' in ServiceNow?",
-    options: ["A debugging technique", "Accessing fields on related tables through reference fields using dot notation", "A type of list navigation", "Walking through workflow steps"],
+    question: "What is an Assignment Rule in ServiceNow?",
+    options: ["A rule that prevents unauthorized field changes", "A rule that automatically assigns records to users or groups based on conditions", "A rule that assigns priority based on impact and urgency", "A rule that routes approvals to the correct manager"],
     correct: 1,
-    explanation: "Dot-walking uses dot notation to access fields on referenced records. For example, 'caller_id.department' on an incident accesses the department field of the caller's user record."
+    explanation: "Assignment Rules automatically assign records to specific users or groups based on defined conditions. For example, all P1 incidents from a specific category could be auto-assigned to a specialized team."
   },
   {
-    id: 65, domain: "collaboration", type: "single",
-    question: "What is the purpose of list controls?",
-    options: ["To define who can see a list", "To configure the buttons, links, and features available on a list layout", "To control list sorting only", "To set list refresh intervals"],
-    correct: 1,
-    explanation: "List controls configure which buttons, features, and UI elements appear on a list, such as New button, filters, search, and other list-level features."
+    id: 65, domain: "self-service-automation", type: "single",
+    question: "How are notifications triggered in ServiceNow?",
+    options: ["Only through workflow activities sending email actions", "Only through manual email sends by administrators", "Only through Business Rules running on record changes", "By events, conditions on records being inserted or updated, or scheduled triggers"],
+    correct: 3,
+    explanation: "Notifications can be triggered by events, by conditions when records are inserted or updated, or by scheduled triggers. Multiple trigger mechanisms provide flexibility."
   },
   {
     id: 66, domain: "collaboration", type: "single",
-    question: "How are form sections used?",
-    options: ["To create separate database tables", "To organize form fields into logical groups with collapsible headers", "To define security boundaries", "To create new views"],
-    correct: 1,
-    explanation: "Form sections organize fields into logical, collapsible groups on a form, improving usability by grouping related fields together (e.g., 'Contact Information', 'Resolution Details')."
+    question: "What is the purpose of the Form Context Menu in ServiceNow?",
+    options: ["To manage form templates for all tables", "To display a list of all forms available in the instance", "To provide quick access to configuration options, export, and view settings for the current form", "To create new forms from scratch"],
+    correct: 2,
+    explanation: "The Form Context Menu (right-click on form header) provides quick access to configuration options like Configure > Form Layout, Configure > Table, Save as Template, and Export."
   },
   {
     id: 67, domain: "collaboration", type: "single",
-    question: "What happens when you personalize a list layout?",
-    options: ["It changes the list for all users", "It saves a personal column configuration that only you see", "It creates a new table view", "It modifies the data dictionary"],
-    correct: 1,
-    explanation: "Personalizing a list layout saves a personal column configuration visible only to you. Other users continue to see the default or their own personalized layouts."
+    question: "Which feature allows users to receive notifications based on records they are watching or following?",
+    options: ["Connect Chat alerts", "Email subscriptions only", "System scheduled jobs", "Activity subscriptions and favorites"],
+    correct: 3,
+    explanation: "Activity subscriptions allow users to follow records and receive notifications when changes occur. Users can subscribe to specific records they want to monitor."
   },
   {
     id: 68, domain: "collaboration", type: "single",
-    question: "Which field type displays a magnifying glass icon and allows searching for related records?",
-    options: ["String field", "Reference field", "Choice field", "Date field"],
-    correct: 1,
-    explanation: "Reference fields display a magnifying glass icon and link to records in other tables. They allow users to search for and select related records."
+    question: "What is the maximum number of Visual Task Board lanes allowed by default?",
+    options: ["Unlimited", "20", "5", "10"],
+    correct: 0,
+    explanation: "By default, there is no hard limit on VTB lanes, though performance may degrade with very large numbers. The practical limit depends on screen size and usability."
   },
   {
     id: 69, domain: "collaboration", type: "single",
-    question: "What is a trend report best used for?",
-    options: ["Showing current record counts", "Displaying how a metric changes over time", "Listing individual records", "Comparing two different tables"],
-    correct: 1,
-    explanation: "Trend reports are specifically designed to show how data changes over time, such as incident volume per month or average resolution time over weeks."
+    question: "Which of the following accurately describes how list filters work in ServiceNow?",
+    options: ["Filters modify the underlying table structure", "Filters can only be applied by administrators", "Filters temporarily restrict which records display in the list based on conditions", "Filters permanently remove records that don't match from the database"],
+    correct: 2,
+    explanation: "List filters temporarily restrict which records are displayed based on conditions. They do not modify or delete data; they only change the view of the list."
   },
   {
     id: 70, domain: "collaboration", type: "single",
-    question: "How can you share a dashboard with other users?",
-    options: ["Dashboards cannot be shared", "By setting the dashboard visibility to a group or making it global", "By emailing a screenshot", "By creating a duplicate for each user"],
-    correct: 1,
-    explanation: "Dashboards can be shared by setting their visibility to specific groups or roles, or by making them global so all users can access them."
+    question: "What does the 'Group by' feature do on a ServiceNow list?",
+    options: ["Creates separate tables for each group", "Merges duplicate records into groups", "Assigns records to user groups automatically", "Organizes list records into collapsible sections based on a field value"],
+    correct: 3,
+    explanation: "The Group by feature organizes list records into collapsible sections based on a selected field value, such as grouping incidents by priority or assignment group."
   },
   {
     id: 71, domain: "collaboration", type: "single",
-    question: "What is a condition builder used for in list filters?",
-    options: ["Building JavaScript conditions", "Creating visual filter conditions with AND/OR logic to filter list records", "Configuring form layouts", "Defining ACL conditions"],
-    correct: 1,
-    explanation: "The condition builder provides a visual interface for creating filter conditions using AND/OR logic. Users select fields, operators, and values to define which records to display."
+    question: "What is a formatter in the context of ServiceNow forms?",
+    options: ["A script that formats field values before saving", "A tool for formatting report output to PDF", "A special form element that displays non-field content like activity streams or process flows", "A plugin that formats notification email templates"],
+    correct: 2,
+    explanation: "A formatter is a special form element that displays non-field content on a form. Examples include the Activity formatter (showing the activity stream) and the Process Flow formatter."
   },
   {
     id: 72, domain: "collaboration", type: "single",
-    question: "What is the difference between 'Work Notes' and 'Additional Comments' on a task?",
-    options: ["There is no difference", "Work Notes are visible only to ITIL users; Additional Comments are visible to the customer", "Work Notes are automated; Additional Comments are manual", "Additional Comments are internal only"],
+    question: "Which of the following is a valid way to personalize a list view in ServiceNow?",
+    options: ["Change the data type of fields you want hidden", "Use the list column header gear icon to add or remove columns", "Modify the table schema to hide columns", "Edit the ACL to restrict visible fields"],
     correct: 1,
-    explanation: "Work Notes are internal journal entries visible only to ITIL/fulfiller users. Additional Comments (Customer Visible) can be seen by the end user/customer, making them suitable for customer communication."
+    explanation: "Users with the personalize_list role can use the gear icon on list column headers to add, remove, or reorder columns in their personal list view."
   },
   {
     id: 73, domain: "collaboration", type: "single",
-    question: "Which feature allows users to export list data?",
-    options: ["The form context menu", "The list context menu (right-click header) with export options like CSV, Excel, PDF", "System Properties", "The Application Navigator"],
+    question: "In ServiceNow, what is the purpose of the 'Save as' option on a report?",
+    options: ["To convert the report to a different chart type", "To create a copy of the report with a new name", "To export the report data to CSV format", "To save the report as a dashboard widget"],
     correct: 1,
-    explanation: "Users can export list data by right-clicking the list header or column header and selecting export options such as CSV, Excel, PDF, or other formats."
+    explanation: "The 'Save as' option creates a copy of the report with a new name. This allows you to duplicate a report and modify it without changing the original."
   },
   {
     id: 74, domain: "collaboration", type: "single",
-    question: "What is Performance Analytics in ServiceNow?",
-    options: ["A tool for monitoring server performance", "An analytics feature for tracking KPIs, trends, and benchmarks using indicators and dashboards", "A code profiling tool", "A network monitoring module"],
+    question: "What determines who receives an email notification in ServiceNow?",
+    options: ["Only the user's email notification preferences", "The 'Who will receive' section including users, groups, and email addresses, combined with user subscription preferences", "Only the assignment group on the triggering record", "Only the 'Users' field on the notification record"],
     correct: 1,
-    explanation: "Performance Analytics tracks Key Performance Indicators (KPIs) over time using indicators, breakdowns, and analytics dashboards to identify trends and measure performance."
+    explanation: "Email notification recipients are determined by the 'Who will receive' section (which can include specific users, groups, and email addresses) combined with individual user notification preferences."
   },
   {
-    id: 75, domain: "collaboration", type: "single",
-    question: "An SLA is about to breach. What automated action can ServiceNow take?",
-    options: ["Nothing; SLAs are informational only", "Trigger notifications, escalations, or workflow activities", "Automatically close the task", "Delete the record"],
-    correct: 1,
-    explanation: "When SLAs are at risk of breaching, ServiceNow can automatically trigger notifications to alert stakeholders, escalate the task, or run workflow activities to ensure timely resolution."
+    id: 75, domain: "self-service-automation", type: "single",
+    question: "Multiple Choice, Single Line Text, and Select Box are what type of elements in ServiceNow?",
+    options: ["Order Guides", "Request Types", "Variable Types", "Related Lists"],
+    correct: 2,
+    explanation: "Multiple Choice, Single Line Text, and Select Box are Variable Types used in Service Catalog items and Record Producers to collect information from users."
   },
   {
-    id: 76, domain: "collaboration", type: "single",
-    question: "What is a template in the context of ServiceNow forms?",
-    options: ["A blank form layout", "A pre-defined set of field values that can be applied when creating new records", "A type of report", "A CSS theme"],
+    id: 76, domain: "self-service-automation", type: "single",
+    question: "A Service Catalog may include which of the following components?",
+    options: ["Catalog Items, Asset Contracts, Task Surveys", "Record Producers, Order Guides, and Catalog Items", "Order Guides, Catalog Items, and Interceptors", "Order Guides, Exchange Rates, Calendars"],
     correct: 1,
-    explanation: "Templates are pre-defined sets of field values that can be applied when creating new records, saving time by auto-populating commonly used field combinations."
+    explanation: "A Service Catalog includes Record Producers (create records from catalog), Order Guides (bundle multiple items), and Catalog Items (individual requestable items)."
   },
   {
-    id: 77, domain: "collaboration", type: "single",
-    question: "How can you configure a list to automatically refresh at regular intervals?",
-    options: ["Through a business rule", "Using the list's auto-refresh setting in the list header/context menu", "By writing a client script", "This is not possible"],
-    correct: 1,
-    explanation: "Lists can be configured to auto-refresh at specified intervals through the list header settings or context menu, keeping displayed data current without manual refresh."
+    id: 77, domain: "self-service-automation", type: "single",
+    question: "The display sequence of variables in a Service Catalog Item is controlled using which field?",
+    options: ["The Choice field in the Variable form", "The Default Value field in the Catalog Item form", "The Order field in the Variable form", "The Sequence field in the Catalog Item form"],
+    correct: 2,
+    explanation: "The display sequence of variables is controlled by the Order field on the Variable form. Lower order values display first."
   },
   {
-    id: 78, domain: "collaboration", type: "single",
-    question: "What are 'Related Lists' on a form?",
-    options: ["Duplicate lists", "Lists of records from other tables that have a relationship to the current record", "Lists of similar records", "A type of report widget"],
-    correct: 1,
-    explanation: "Related Lists display records from other tables that are related to the current record, such as showing all incidents related to a specific CI or all tasks assigned to a user."
+    id: 78, domain: "self-service-automation", type: "single",
+    question: "What does the REQ number represent in ServiceNow Service Catalog?",
+    options: ["The individual item in the order", "The stage of fulfillment", "The task to complete", "The order number"],
+    correct: 3,
+    explanation: "REQ (Request) number represents the overall order number. Individual items within the order get RITM (Requested Item) numbers, and fulfillment work gets SCTASK numbers."
   },
   {
-    id: 79, domain: "collaboration", type: "single",
-    question: "What is the purpose of the 'Update' button vs 'Submit' button on a form?",
-    options: ["They do the same thing", "Submit creates a new record and stays on the form; Update saves changes to an existing record", "Update creates a new record; Submit saves changes", "Submit is for admins only"],
-    correct: 1,
-    explanation: "Submit is used when creating a new record (it inserts the record). Update is used to save changes to an existing record. After Submit, you typically return to the list or the created record."
+    id: 79, domain: "self-service-automation", type: "single",
+    question: "What is true about Service Catalog Variables?",
+    options: ["Are global by default", "Can only be used in Order Guides", "Can only be used in Record Producers", "Cannot affect the order price"],
+    correct: 0,
+    explanation: "Service Catalog Variables are global by default, meaning they can be used across multiple catalog items. Variable Sets allow you to group and reuse variables."
   },
   {
-    id: 80, domain: "collaboration", type: "single",
-    question: "Which feature allows drag-and-drop form design in ServiceNow?",
-    options: ["Form Layout", "Form Designer", "UI Builder", "Schema Designer"],
-    correct: 1,
-    explanation: "Form Designer provides a drag-and-drop interface for designing form layouts. Administrators can add, remove, and rearrange fields, sections, and formatters visually."
+    id: 80, domain: "self-service-automation", type: "single",
+    question: "Which statement describes a Service Catalog workflow's purpose?",
+    options: ["Generates item variable types, tasks, and notifications", "Generates item variable types, tasks, and approvals", "Drives complex fulfillment and sends notifications", "Cannot send notifications but drives fulfillment"],
+    correct: 2,
+    explanation: "A Service Catalog workflow drives complex fulfillment processes and can send notifications. It automates the request lifecycle including approvals, tasks, and communication."
   },
-
-  // ========== DOMAIN 4: Self-Service & Process Automation (40 questions) ==========
   {
     id: 81, domain: "self-service-automation", type: "single",
-    question: "What is the Service Catalog in ServiceNow?",
-    options: ["A list of all database tables", "A self-service portal where users can request items and services", "A configuration management tool", "A reporting module"],
-    correct: 1,
-    explanation: "The Service Catalog is a self-service interface where end users can browse and request services, hardware, software, and other items from predefined catalog items."
+    question: "What purpose is a Record Producer used for?",
+    options: ["Virtual representation of activities and visual boards", "Memory management and response time monitoring", "Creating task-based records through the service catalog", "Valuing, depreciating, and determining cost allocation"],
+    correct: 2,
+    explanation: "A Record Producer creates task-based records (like incidents, change requests) through the Service Catalog interface, providing a user-friendly way to submit requests."
   },
   {
     id: 82, domain: "self-service-automation", type: "single",
-    question: "What is the difference between a Catalog Item and a Record Producer?",
-    options: ["They are the same thing", "A Catalog Item generates a Requested Item; a Record Producer creates a record on a target table (e.g., Incident)", "A Record Producer is for admins only", "A Catalog Item requires approval; a Record Producer does not"],
+    question: "What is the best way to share a knowledge article with another user?",
+    options: ["Take a screenshot and email it", "Use a permalink to the article", "Share the screen during a call", "Copy and paste the article content"],
     correct: 1,
-    explanation: "A Catalog Item, when ordered, creates a Requested Item (RITM) with associated catalog tasks. A Record Producer creates a record directly on a specified target table, such as creating an incident from the catalog."
+    explanation: "A permalink provides a direct URL to the knowledge article that can be shared with others. This ensures the recipient sees the most current version of the article."
   },
   {
-    id: 83, domain: "self-service-automation", type: "single",
-    question: "What is an Order Guide in the Service Catalog?",
-    options: ["Documentation for ordering items", "A guided, multi-step process that bundles multiple catalog items into a single request", "A report showing order history", "An approval workflow"],
-    correct: 1,
-    explanation: "An Order Guide provides a wizard-like, multi-step ordering experience that can bundle multiple catalog items together, guiding the user through a structured request process."
+    id: 83, domain: "self-service-automation", type: "multi",
+    question: "Which are the four knowledge workflows available in the ServiceNow base instance? (Choose 4)",
+    options: ["Retire Knowledge", "Approval Publish", "Draft Review", "Instant Publish", "Instant Retire"],
+    correct: [0,1,3,4],
+    explanation: "The four base knowledge workflows are: Approval Publish (requires approval before publishing), Instant Publish (publishes immediately), Instant Retire (retires immediately), and Retire Knowledge (follows a retirement process)."
   },
   {
     id: 84, domain: "self-service-automation", type: "single",
-    question: "What are catalog variables?",
-    options: ["JavaScript variables used in catalog scripts", "Form fields/questions on a catalog item that collect information from the requester", "System properties for the catalog", "Database columns on the sc_cat_item table"],
+    question: "To access knowledge articles without logging in, the article must be configured as:",
+    options: ["Set to Retire", "Set to Public", "Set to Private", "Set to Review status"],
     correct: 1,
-    explanation: "Catalog variables are the questions/fields presented to users when they order a catalog item. They collect information needed to fulfill the request (e.g., laptop type, justification)."
+    explanation: "Knowledge articles must be set to Public to be accessible without authentication. Public articles are available to anonymous users through the Service Portal."
   },
   {
-    id: 85, domain: "self-service-automation", type: "multi",
-    question: "Which of the following are types of catalog variables? (Choose two)",
-    options: ["Single Line Text", "GlideRecord", "Select Box (dropdown)", "Business Rule"],
-    correct: [0, 2],
-    explanation: "Single Line Text and Select Box (dropdown) are types of catalog variables used to collect user input. GlideRecord is a scripting API, and Business Rule is a server-side automation."
+    id: 85, domain: "self-service-automation", type: "single",
+    question: "What is the knowledge article publishing workflow stage progression?",
+    options: ["Published > Review > Draft > Retire", "Draft > Review > Published > Retire", "Review > Draft > Published > Retire", "Draft > Published > Review > Retire"],
+    correct: 1,
+    explanation: "The standard knowledge article workflow progresses from Draft (initial creation) to Review (approval process) to Published (available to users) to Retire (end of life)."
   },
   {
     id: 86, domain: "self-service-automation", type: "single",
-    question: "What is Knowledge Management in ServiceNow?",
-    options: ["A database management tool", "A system for creating, organizing, and sharing knowledge articles for self-service and support", "A project management module", "A type of notification"],
-    correct: 1,
-    explanation: "Knowledge Management provides a system for creating, reviewing, publishing, and retiring knowledge articles that help users find answers and solutions through self-service."
+    question: "A Script Include and a reference record that can customize transitions between different SLA states describes which feature?",
+    options: ["SLA Conditions and Script Include", "Task management configuration", "Application Scoping", "Knowledge Instant Publish"],
+    correct: 0,
+    explanation: "SLA Conditions and Script Include are used to customize transitions between different SLA states (e.g., start, pause, stop, reset). They provide fine-grained control over SLA behavior."
   },
   {
     id: 87, domain: "self-service-automation", type: "single",
-    question: "What is the knowledge article lifecycle?",
-    options: ["Create → Publish → Archive", "Draft → Review → Published → Retired", "Write → Submit → Approve", "New → Active → Closed"],
-    correct: 1,
-    explanation: "Knowledge articles follow a lifecycle: Draft (being written) → Review (being validated) → Published (available to users) → Retired (no longer relevant). The exact workflow can be customized."
+    question: "Which table stores SLA definitions in ServiceNow?",
+    options: ["task_sla", "SLA", "sla_definition", "contract_sla"],
+    correct: 3,
+    explanation: "SLA definitions are stored in the contract_sla table. The task_sla table stores individual SLA records applied to specific tasks."
   },
   {
     id: 88, domain: "self-service-automation", type: "single",
-    question: "What is a Knowledge Base in ServiceNow?",
-    options: ["A single knowledge article", "A container/collection that organizes related knowledge articles with shared permissions and workflows", "A database table", "A type of report"],
+    question: "Which table stores SLA records that are applied to individual tasks like incidents?",
+    options: ["SLA", "task_sla", "contract_sla", "sla_definition"],
     correct: 1,
-    explanation: "A Knowledge Base is a container that groups related knowledge articles together. Each knowledge base can have its own access controls, workflows, and approval processes."
+    explanation: "The task_sla table stores SLA records that are applied to individual tasks. Each record tracks the SLA progress for a specific task (incident, change, etc.)."
   },
   {
     id: 89, domain: "self-service-automation", type: "single",
-    question: "What is Flow Designer in ServiceNow?",
-    options: ["A tool for designing form layouts", "A no-code/low-code tool for building automated workflows using triggers, actions, and flow logic", "A CSS editor", "A database design tool"],
-    correct: 1,
-    explanation: "Flow Designer is a no-code/low-code automation tool that allows administrators to build flows using triggers, actions, and flow logic steps without writing scripts."
+    question: "Is the SLA feature in ServiceNow applicable only for task-based tables?",
+    options: ["No, SLAs can only be applied to CMDB tables", "No, SLAs can be applied to any table", "Yes, SLAs apply only to task-based tables", "No, SLAs apply only to configuration items"],
+    correct: 2,
+    explanation: "Yes, SLAs in ServiceNow are applicable only for task-based tables (tables that extend the Task table). This includes incidents, changes, problems, and other task types."
   },
   {
     id: 90, domain: "self-service-automation", type: "single",
-    question: "What is the difference between a Flow and a Subflow in Flow Designer?",
-    options: ["They are the same thing", "A Flow has a trigger and runs independently; a Subflow has no trigger and is called by other flows", "A Subflow runs on the client side", "A Flow is legacy; Subflows are modern"],
+    question: "In an SLA definition, which set of conditions controls SLA behavior?",
+    options: ["Begin, Stop, Pause", "Start, Stop, Reset", "Start, Stop, Pause", "Start, End, Pause"],
     correct: 1,
-    explanation: "A Flow is a complete automation with a trigger that starts it. A Subflow is a reusable sequence of actions without its own trigger, designed to be called from within other flows."
+    explanation: "SLA definitions use Start, Stop, and Reset conditions. Start defines when the SLA begins tracking, Stop defines when it completes, and Reset defines when it should restart."
   },
   {
     id: 91, domain: "self-service-automation", type: "single",
-    question: "What is a Spoke in Flow Designer?",
-    options: ["A type of trigger", "A scoped application that contains Flow Designer actions and subflows for a specific integration or domain", "A flow variable", "A type of approval"],
-    correct: 1,
-    explanation: "A Spoke is a scoped application containing Flow Designer actions and subflows tailored for a specific integration (e.g., Slack Spoke, Microsoft Teams Spoke) or domain."
+    question: "Which is used to initiate a flow in Flow Designer?",
+    options: ["A Trigger", "Core Action", "An Event", "A Spoke"],
+    correct: 0,
+    explanation: "A Trigger initiates a flow in Flow Designer. Triggers define the conditions that start a flow, such as a record being created, updated, or a scheduled time."
   },
   {
-    id: 92, domain: "self-service-automation", type: "single",
-    question: "What triggers can start a Flow in Flow Designer?",
-    options: ["Only manual triggers", "Record-based triggers, schedule-based triggers, or application-based triggers", "Only email triggers", "Only API calls"],
-    correct: 1,
-    explanation: "Flows can be triggered by record events (created, updated, deleted), schedules (daily, weekly), or application triggers (inbound email, REST API calls, etc.)."
+    id: 92, domain: "self-service-automation", type: "multi",
+    question: "What are the benefits of building flows using Flow Designer? (Choose 3)",
+    options: ["Supports easy integration with 3rd party systems", "Provides IDE for complicated scripting", "Supports No-Code application development", "Provides natural-language descriptions of flow logic", "Automatically populates SLA records"],
+    correct: [0,2,3],
+    explanation: "Flow Designer supports easy 3rd-party integration (via spokes), provides natural-language descriptions of flow logic for readability, and supports no-code development for non-developers."
   },
   {
     id: 93, domain: "self-service-automation", type: "single",
-    question: "What is the legacy Workflow Editor used for?",
-    options: ["Only for creating approval workflows", "Building graphical workflow automations (drag-and-drop activities) - now largely replaced by Flow Designer", "Editing CSS workflows", "Managing database transactions"],
-    correct: 1,
-    explanation: "The legacy Workflow Editor provides a graphical drag-and-drop interface for building automated workflows. While still functional, Flow Designer is the recommended modern alternative."
+    question: "What is the conversational bot platform in ServiceNow that provides user assistance?",
+    options: ["Live Feed", "Connect Chat", "Answer Agent", "Virtual Agent"],
+    correct: 3,
+    explanation: "Virtual Agent is ServiceNow's conversational bot platform that provides automated assistance to users through chat interfaces, helping resolve common issues without human intervention."
   },
   {
     id: 94, domain: "self-service-automation", type: "single",
-    question: "What is an approval rule in ServiceNow?",
-    options: ["A business rule that runs on approval", "A configuration that automatically generates approval requests based on conditions", "A type of ACL", "A client script"],
-    correct: 1,
-    explanation: "Approval rules define conditions under which approval requests are automatically generated. They specify who needs to approve and under what circumstances."
+    question: "All workflows must have a beginning and an end. True or false?",
+    options: ["False", "Only automated workflows need both", "Only approval workflows need both", "True"],
+    correct: 3,
+    explanation: "True. All workflows must have a beginning activity and an end activity. The workflow engine requires these to properly track the lifecycle of the workflow execution."
   },
   {
     id: 95, domain: "self-service-automation", type: "single",
-    question: "What is the difference between an Approval Rule and an Approval Policy?",
-    options: ["They are the same thing", "Approval rules are simpler condition-based; approval policies are more complex with multiple conditions and actions", "Approval policies are legacy only", "Approval rules require scripting"],
+    question: "When a workflow is checked out, who do the changes apply to?",
+    options: ["All users in the admin group", "The user who checked it out", "No one until it is published", "All users on the instance"],
     correct: 1,
-    explanation: "Approval rules are simpler condition-based configurations. Approval policies are more sophisticated, using the Decision Table framework for complex multi-condition approval requirements."
+    explanation: "When a workflow is checked out, changes apply only to the user who checked it out. Other users continue to see the published version until the changes are published."
   },
   {
     id: 96, domain: "self-service-automation", type: "single",
-    question: "What is an Assignment Rule?",
-    options: ["A rule that assigns roles to users", "A rule that automatically assigns tasks to users or groups based on conditions", "A rule that assigns ACLs", "A type of business rule"],
+    question: "Which of the following is NOT related to a Workflow in ServiceNow?",
+    options: ["Versions", "Categories", "Activities", "Transitions"],
     correct: 1,
-    explanation: "Assignment rules automatically assign records (like incidents or catalog tasks) to specific users or groups based on defined conditions, streamlining the routing process."
+    explanation: "Categories are not a component of workflows. Workflows consist of Activities (actions to perform), Transitions (connections between activities), and Versions (revision history)."
   },
   {
     id: 97, domain: "self-service-automation", type: "single",
-    question: "A catalog item requires manager approval for requests over $500. How should this be configured?",
-    options: ["Using a client script on the catalog item", "Using a catalog item approval rule or flow that checks the price and generates approval", "By making the price field read-only", "Through a UI policy"],
+    question: "What is NOT part of the Workflow Editor User Interface?",
+    options: ["Canvas", "Activity Tab", "Palette", "Title bar"],
     correct: 1,
-    explanation: "Conditional approvals on catalog items are configured using approval rules or Flow Designer flows that evaluate conditions (like price > $500) and generate approval requests accordingly."
+    explanation: "Activity Tab is not a standard part of the Workflow Editor UI. The Workflow Editor includes a Canvas (where you design), Palette (available activities), and Title bar."
   },
   {
     id: 98, domain: "self-service-automation", type: "single",
-    question: "What is the Service Portal in ServiceNow?",
-    options: ["The classic UI for admins", "A modern, widget-based portal framework for building user-facing self-service portals", "The Application Navigator", "A type of report"],
+    question: "What is a Spoke in Flow Designer?",
+    options: ["A reusable sub-component that runs inside a flow", "A set of actions for a specific application or integration", "A visual connector between flow actions", "A trigger condition that starts a flow"],
     correct: 1,
-    explanation: "Service Portal is a modern, responsive portal framework that allows organizations to build custom self-service portals using configurable widgets, pages, and themes."
+    explanation: "A Spoke is a scoped set of actions, subflows, and other components packaged together for a specific application or integration (e.g., Slack Spoke, Microsoft Teams Spoke)."
   },
   {
     id: 99, domain: "self-service-automation", type: "single",
-    question: "How does knowledge article feedback work?",
-    options: ["Users cannot provide feedback on articles", "Users can rate articles and flag them as helpful/not helpful, which feeds into article quality metrics", "Feedback is only available to admins", "Feedback requires a separate plugin"],
-    correct: 1,
-    explanation: "Users can rate knowledge articles, mark them as helpful or not helpful, and provide comments. This feedback helps knowledge managers improve article quality and relevance."
+    question: "What is a Subflow in Flow Designer?",
+    options: ["A reusable sequence of actions that can be called from other flows", "A visual representation of flow dependencies", "A trigger that initiates secondary flows", "A debugging tool for testing flow execution"],
+    correct: 0,
+    explanation: "A Subflow is a reusable sequence of actions that can be called from within other flows. It promotes modularity and reduces duplication in flow design."
   },
   {
     id: 100, domain: "self-service-automation", type: "single",
-    question: "What is the purpose of a Catalog Category?",
-    options: ["To restrict access to catalog items", "To organize catalog items into logical groups for easier browsing", "To define pricing for items", "To create approval workflows"],
-    correct: 1,
-    explanation: "Catalog categories organize catalog items into logical groups (e.g., Hardware, Software, Services), making it easier for users to browse and find the items they need."
+    question: "Which feature replaced the legacy Workflow Editor for new automation development?",
+    options: ["Flow Designer", "Orchestration Engine", "Business Rule Engine", "Process Automation Designer"],
+    correct: 0,
+    explanation: "Flow Designer replaces the legacy Workflow Editor for new automation development. It provides a modern, no-code interface for building automated processes."
   },
   {
     id: 101, domain: "self-service-automation", type: "single",
-    question: "What is a Catalog Task?",
-    options: ["A task to create a new catalog item", "A fulfillment task generated when a catalog item is ordered, assigned to a fulfillment group", "A scheduled catalog maintenance task", "An approval task"],
-    correct: 1,
-    explanation: "Catalog Tasks (sc_task) are fulfillment tasks automatically generated when a catalog item is ordered. They are assigned to fulfillment groups to track the work needed to fulfill the request."
+    question: "What is an Order Guide in the Service Catalog?",
+    options: ["A template for creating new catalog categories", "A user manual for placing catalog orders", "A sequential guide that bundles multiple catalog items into a single request", "A report showing catalog order history"],
+    correct: 2,
+    explanation: "An Order Guide bundles multiple catalog items into a single, guided request process. Users are walked through a sequence of items that can be ordered together."
   },
   {
     id: 102, domain: "self-service-automation", type: "single",
-    question: "In Flow Designer, what is an Action?",
-    options: ["A trigger that starts a flow", "A reusable, single-purpose operation that performs a specific task (e.g., Create Record, Send Email)", "A flow variable", "A condition check"],
-    correct: 1,
-    explanation: "An Action in Flow Designer is a reusable single-purpose step that performs a specific operation, such as creating a record, sending an email, updating a field, or calling a REST API."
+    question: "What is a Variable Set in the Service Catalog?",
+    options: ["A security setting that controls variable visibility", "A configuration file that stores catalog settings", "A reusable collection of variables that can be shared across multiple catalog items", "A report that shows all variables used in the catalog"],
+    correct: 2,
+    explanation: "A Variable Set is a reusable collection of variables that can be shared across multiple catalog items. This avoids duplicating the same variables on different items."
   },
   {
-    id: 103, domain: "self-service-automation", type: "multi",
-    question: "Which of the following can be configured in a Flow Designer flow? (Choose two)",
-    options: ["If/Else conditions for branching logic", "Custom HTML pages", "For Each loops to iterate over records", "Direct database SQL queries"],
-    correct: [0, 2],
-    explanation: "Flow Designer supports If/Else branching for conditional logic and For Each loops for iterating over record sets. It does not create custom HTML pages or run direct SQL."
+    id: 103, domain: "self-service-automation", type: "single",
+    question: "Which catalog item type is specifically designed to create records on a target table?",
+    options: ["Order Guide", "Record Producer", "Standard Catalog Item", "Content Item"],
+    correct: 1,
+    explanation: "A Record Producer is designed to create records on a target table (e.g., Incident, Change Request) through the Service Catalog, providing a user-friendly frontend."
   },
   {
     id: 104, domain: "self-service-automation", type: "single",
-    question: "What is the execution order when a catalog item is submitted?",
-    options: ["Fulfillment → Approval → Request", "Request created → Approval (if required) → Catalog Tasks generated for fulfillment", "Approval → Request → Fulfillment simultaneously", "Tasks first, then request"],
-    correct: 1,
-    explanation: "When a catalog item is ordered: a Request (REQ) and Requested Item (RITM) are created, approvals are generated if required, and upon approval, Catalog Tasks are created for fulfillment."
+    question: "What is the relationship between a Request (REQ), Requested Item (RITM), and Catalog Task (SCTASK)?",
+    options: ["REQ contains RITMs, each RITM can have SCTASKs for fulfillment", "They are independent records with no relationship", "SCTASK is the parent of RITM and REQ", "RITM contains REQs, each REQ generates SCTASKs"],
+    correct: 0,
+    explanation: "A Request (REQ) is the overall order, containing one or more Requested Items (RITM). Each RITM can generate Catalog Tasks (SCTASK) for the actual fulfillment work."
   },
   {
     id: 105, domain: "self-service-automation", type: "single",
-    question: "What is a Data Policy in ServiceNow?",
-    options: ["A policy that controls data storage limits", "A server-side rule that enforces data requirements (mandatory, read-only) regardless of how data enters the system", "A type of ACL", "A backup policy"],
-    correct: 1,
-    explanation: "Data Policies enforce data requirements (mandatory fields, read-only fields) on the server side, ensuring data integrity regardless of whether data comes from forms, imports, web services, or other channels."
+    question: "Which ServiceNow feature allows end users to find answers and request services without contacting IT directly?",
+    options: ["System Administration Console", "Agent Workspace", "Platform UI", "Service Portal"],
+    correct: 3,
+    explanation: "The Service Portal provides a self-service interface where end users can search knowledge articles, submit catalog requests, and check ticket status without directly contacting IT."
   },
   {
     id: 106, domain: "self-service-automation", type: "single",
-    question: "How does a Data Policy differ from a UI Policy?",
-    options: ["They are identical", "UI Policies only affect the form UI; Data Policies enforce rules server-side across all data entry methods", "Data Policies only work on imports", "UI Policies are server-side; Data Policies are client-side"],
+    question: "What happens when a knowledge article is flagged by a user?",
+    options: ["The article is automatically updated with corrections", "A notification is sent to the knowledge base owner for review", "The article is immediately deleted from the knowledge base", "The article is hidden from all users"],
     correct: 1,
-    explanation: "UI Policies control form behavior (show/hide, mandatory, read-only) only on the UI. Data Policies enforce the same types of rules server-side, applying to all data entry methods including APIs, imports, and scripts."
+    explanation: "When a user flags a knowledge article, a notification is sent to the knowledge base owner or designated reviewer for review. The article remains visible until action is taken."
   },
   {
-    id: 107, domain: "self-service-automation", type: "single",
-    question: "What is the purpose of the 'Can Read' and 'Can Write' knowledge base permissions?",
-    options: ["They control database-level access", "They determine who can view and who can contribute articles to a knowledge base", "They are ACL types", "They control Service Portal access"],
-    correct: 1,
-    explanation: "Knowledge base permissions control who can read (view) articles and who can write (contribute/edit) articles within a specific knowledge base, using roles or groups."
+    id: 107, domain: "database-security", type: "single",
+    question: "What is the master table that contains a record for each table in the database?",
+    options: ["sys_db_object", "sys_object_db", "sys_master_db", "sys_master_object"],
+    correct: 0,
+    explanation: "sys_db_object is the master table containing a record for every table in the ServiceNow database. It stores metadata about each table."
   },
   {
-    id: 108, domain: "self-service-automation", type: "single",
-    question: "An organization wants to automate the onboarding process for new hires. Which ServiceNow feature is most appropriate?",
-    options: ["A single catalog item", "A Flow Designer flow or workflow triggered by HR case creation", "A notification rule", "A report"],
+    id: 108, domain: "database-security", type: "single",
+    question: "When a user creates a custom table named 'XYZ', how does ServiceNow name it?",
+    options: ["XYZ", "u_xyz", "x_xyz", "sys_xyz"],
     correct: 1,
-    explanation: "Flow Designer flows (or legacy workflows) can automate multi-step onboarding processes, triggering tasks across departments (IT, HR, Facilities) when an HR onboarding case is created."
+    explanation: "Custom tables created by users are automatically prefixed with 'u_'. So a table named 'XYZ' becomes 'u_xyz'. Scoped application tables use 'x_' prefix instead."
   },
   {
-    id: 109, domain: "self-service-automation", type: "single",
-    question: "What is a Variable Set in the Service Catalog?",
-    options: ["A collection of JavaScript variables", "A reusable group of catalog variables that can be shared across multiple catalog items", "A set of system properties", "A type of report filter"],
-    correct: 1,
-    explanation: "A Variable Set is a reusable collection of catalog variables that can be applied to multiple catalog items, avoiding the need to recreate the same variables on each item."
+    id: 109, domain: "database-security", type: "single",
+    question: "User records are stored in which table?",
+    options: ["User [u_sys_user]", "User [sn_user]", "User [s_user]", "User [sys_user]"],
+    correct: 3,
+    explanation: "User records are stored in the sys_user table. This is one of the core system tables and contains all user accounts in the ServiceNow instance."
   },
   {
-    id: 110, domain: "self-service-automation", type: "single",
-    question: "What is the difference between 'Requested For' and 'Requested By' on a catalog request?",
-    options: ["They are always the same user", "Requested By is who submitted the request; Requested For is the person who will receive the item/service", "Requested For is the approver", "Requested By is the fulfiller"],
-    correct: 1,
-    explanation: "Requested By is the person who submitted the catalog request. Requested For is the intended recipient of the item or service, which may be a different person (e.g., a manager ordering a laptop for their team member)."
+    id: 110, domain: "database-security", type: "single",
+    question: "What are the two most commonly used core tables in ServiceNow?",
+    options: ["sys_user and sys_user_group", "incident and change_request", "cmdb and cmdb_rel_ci", "Task [task] and Configuration Item [cmdb_ci]"],
+    correct: 3,
+    explanation: "Task [task] and Configuration Item [cmdb_ci] are the two most commonly used core tables. Task is the base for all task-based tables, and cmdb_ci stores configuration items."
   },
   {
-    id: 111, domain: "self-service-automation", type: "single",
-    question: "Which table stores Service Catalog requests?",
-    options: ["incident", "sc_request", "task", "sc_cat_item"],
-    correct: 1,
-    explanation: "Service Catalog requests are stored in the sc_request table. Individual line items are in sc_req_item (Requested Items), and fulfillment tasks are in sc_task."
+    id: 111, domain: "database-security", type: "single",
+    question: "Which table types can be extended by other tables but do not extend another table themselves?",
+    options: ["Extended Tables", "Core Tables", "Custom Tables", "Base Tables"],
+    correct: 3,
+    explanation: "Base Tables can be extended by other tables but do not extend any table themselves. They are at the top of the table hierarchy (e.g., the Task table is a base table)."
   },
   {
-    id: 112, domain: "self-service-automation", type: "single",
-    question: "What is the purpose of a Catalog Client Script?",
-    options: ["It runs on the server when a catalog item is submitted", "It runs in the browser to control catalog item form behavior (show/hide variables, set values)", "It creates catalog items automatically", "It generates reports on catalog usage"],
-    correct: 1,
-    explanation: "Catalog Client Scripts run in the user's browser to control the catalog item form behavior, such as showing/hiding variables based on selections, setting default values, or validating input."
+    id: 112, domain: "database-security", type: "single",
+    question: "What technique is used to get information from referenced fields across tables?",
+    options: ["Dot-Walking", "Record-Hopping", "Table-Walking", "Sys_ID Pulling"],
+    correct: 0,
+    explanation: "Dot-Walking allows you to access fields on related records through reference fields. For example, incident.caller_id.department references the department of the incident caller."
   },
   {
-    id: 113, domain: "self-service-automation", type: "single",
-    question: "What is a Catalog UI Policy?",
-    options: ["A policy that restricts catalog access", "A no-code way to dynamically change catalog variable attributes (mandatory, visible, read-only) based on conditions", "A server-side validation rule", "A type of ACL for the catalog"],
+    id: 113, domain: "database-security", type: "single",
+    question: "Access Control rules for the entire Incident table (all rows and fields) use which object name?",
+    options: ["incident.!", "incident.*", "incident.all", "incident.None"],
     correct: 1,
-    explanation: "Catalog UI Policies dynamically change catalog variable behavior (mandatory, visible, read-only) based on conditions without scripting, similar to form UI Policies but for catalog items."
+    explanation: "The object name 'incident.*' applies to all fields on the Incident table. The asterisk wildcard means the rule covers every field in the table."
   },
   {
-    id: 114, domain: "self-service-automation", type: "single",
-    question: "In Flow Designer, what is a trigger?",
-    options: ["A manual button click only", "The event or condition that starts a flow's execution", "A type of action step", "A subflow reference"],
-    correct: 1,
-    explanation: "A trigger is the event or condition that initiates a flow's execution. Examples include record creation/update, a scheduled time, an inbound email, or a service catalog request."
+    id: 114, domain: "database-security", type: "single",
+    question: "What is the most common role that has access to almost all platform features, functions, and data?",
+    options: ["Base Admin [base_admin]", "Security Admin [security_admin]", "Sys Admin [sys_admin]", "System Administrator [admin]"],
+    correct: 3,
+    explanation: "The admin role (System Administrator) is the most common role with access to almost all platform features. It provides broad system-wide privileges."
   },
   {
-    id: 115, domain: "self-service-automation", type: "single",
-    question: "How can you make a knowledge article visible only to IT staff?",
-    options: ["By setting the article to Draft state", "By configuring the knowledge base 'Can Read' permission to the appropriate role or group", "By hiding it in the Application Navigator", "By encrypting the article"],
-    correct: 1,
-    explanation: "Knowledge base access is controlled through Can Read/Can Write permissions. Setting Can Read to an IT-specific role or group restricts article visibility to IT staff only."
+    id: 115, domain: "database-security", type: "single",
+    question: "Which role is required to create or modify Access Control Lists (ACLs)?",
+    options: ["Security_admin", "Admin", "Sys_admin", "Acl_admin"],
+    correct: 0,
+    explanation: "The security_admin role is required to create or modify ACLs. Even users with the admin role need to elevate to security_admin to manage access controls."
   },
   {
-    id: 116, domain: "self-service-automation", type: "single",
-    question: "What happens when a requested item's approval is rejected?",
-    options: ["The item is automatically re-submitted", "The requested item moves to a closed/cancelled state and no fulfillment tasks are created", "The request is escalated to an admin", "Nothing happens until the requester takes action"],
+    id: 116, domain: "database-security", type: "single",
+    question: "What is the ACL (table access control) rule evaluation order?",
+    options: ["Any table name (wildcard), parent table name, table name", "Table name, parent table name, any table name (wildcard)", "Parent table name, table name, any table name (wildcard)", "Any table name (wildcard), table name, parent table name"],
     correct: 1,
-    explanation: "When an approval is rejected, the requested item typically moves to a closed incomplete or cancelled state. No fulfillment tasks are generated since the request was not approved."
+    explanation: "ACL rules are evaluated from most specific to most generic: table name first, then parent table name, then wildcard (*). The first matching rule is applied."
   },
   {
-    id: 117, domain: "self-service-automation", type: "single",
-    question: "What is the purpose of the Execution Plan on a catalog item?",
-    options: ["To define the item's price", "To define the fulfillment tasks that will be created when the item is ordered and how they relate to each other", "To schedule when the item is available", "To set approval requirements"],
-    correct: 1,
-    explanation: "The Execution Plan (or catalog item workflow/flow) defines what fulfillment tasks are created, their order (sequential or parallel), and assignment when the catalog item is ordered."
+    id: 117, domain: "database-security", type: "single",
+    question: "When evaluating Access Controls, ServiceNow searches and evaluates in which order?",
+    options: ["Only for matches on the current field", "From most generic to most specific match", "Only for matches on the current table", "From most specific to most generic match"],
+    correct: 3,
+    explanation: "ServiceNow evaluates ACLs from most specific to most generic. It first checks for rules on the specific table, then parent tables, then wildcard rules."
   },
   {
-    id: 118, domain: "self-service-automation", type: "single",
-    question: "Which module is used to view all pending approvals for the current user?",
-    options: ["Self-Service > My Requests", "Self-Service > My Approvals", "System Logs > Approvals", "Service Catalog > Approvals"],
-    correct: 1,
-    explanation: "Self-Service > My Approvals shows all pending approval requests for the currently logged-in user, allowing them to approve or reject items."
+    id: 118, domain: "database-security", type: "single",
+    question: "At which three levels can ACLs be applied?",
+    options: ["Table, row, and column", "User, group, and role", "Application, module, and widget", "Database, schema, and record"],
+    correct: 0,
+    explanation: "ACLs can be applied at three levels: Table (controls access to the entire table), Row (controls access to specific records), and Column (controls access to specific fields)."
   },
   {
-    id: 119, domain: "self-service-automation", type: "single",
-    question: "What is the relationship between a Request (REQ), Requested Item (RITM), and Catalog Task (SCTASK)?",
-    options: ["They are all the same record type", "A REQ contains one or more RITMs, and each RITM can generate one or more SCTASKs", "SCTASKs contain RITMs which contain REQs", "There is no relationship between them"],
-    correct: 1,
-    explanation: "A Request (REQ) is the parent container. It contains one or more Requested Items (RITM), one for each catalog item ordered. Each RITM can generate one or more Catalog Tasks (SCTASK) for fulfillment."
+    id: 119, domain: "database-security", type: "single",
+    question: "What are the three permission types used in ACL rules?",
+    options: ["Users, groups, and departments", "Allow, deny, and inherit", "Roles, conditional expressions, and scripts", "Read, write, and delete"],
+    correct: 2,
+    explanation: "ACL rules use three permission types: Roles (role-based access), Conditional expressions (field-value conditions), and Scripts (custom logic for complex decisions)."
   },
   {
-    id: 120, domain: "self-service-automation", type: "single",
-    question: "What is the benefit of using Flow Designer over the legacy Workflow Editor?",
-    options: ["Flow Designer is faster at runtime", "Flow Designer provides a modern, no-code interface with better reusability (subflows, actions, spokes) and is the strategic direction for ServiceNow automation", "Workflow Editor has been completely removed", "There is no benefit; they are equivalent"],
-    correct: 1,
-    explanation: "Flow Designer offers a modern no-code/low-code interface, reusable components (subflows, actions, spokes), better testing capabilities, and is ServiceNow's strategic automation platform going forward."
+    id: 120, domain: "database-security", type: "multi",
+    question: "How do Data Classifications support administrators and auditors? (Choose 2)",
+    options: ["Help with privacy laws, security, and compliance", "Track the creation, update, and deletion of all records", "Visualize the current sensitivity of data within the instance", "Protect sensitive information by scrambling data"],
+    correct: [0,2],
+    explanation: "Data Classifications help with privacy laws/security/compliance and visualize data sensitivity. They help organizations understand where sensitive data exists in their instance."
   },
-
-  // ========== DOMAIN 5: Database Management & Platform Security (50 questions) ==========
   {
     id: 121, domain: "database-security", type: "single",
-    question: "What is a table in ServiceNow?",
-    options: ["A visual component on a form", "A structured collection of records with defined fields, similar to a database table", "A type of report", "A user group"],
-    correct: 1,
-    explanation: "A table in ServiceNow is a structured collection of records (rows) with defined fields (columns), analogous to a relational database table. Each table stores specific types of data."
+    question: "What encryption feature is included in ServiceNow by default?",
+    options: ["Field-level encryption", "Data in use encryption", "Data in transit encryption", "Data at rest encryption"],
+    correct: 2,
+    explanation: "Data in transit encryption (SSL/TLS) is included by default in ServiceNow. Data at rest and data in use encryption are optional features that require additional configuration."
   },
   {
-    id: 122, domain: "database-security", type: "single",
-    question: "Where are field definitions (type, length, default value) configured?",
-    options: ["System Properties", "The Data Dictionary (System Definition > Dictionary)", "The Application Navigator", "Form Designer only"],
-    correct: 1,
-    explanation: "The Data Dictionary (accessible through System Definition > Dictionary or by right-clicking a field label) defines field attributes including type, length, default values, and other properties."
+    id: 122, domain: "database-security", type: "multi",
+    question: "Which components are ServiceNow's responsibility according to the Shared Responsibility Model? (Choose 2)",
+    options: ["Media disposal and destruction", "Infrastructure management", "Authentication and authorization configuration", "Backup and restore of customer data"],
+    correct: [0,1],
+    explanation: "Under the Shared Responsibility Model, ServiceNow is responsible for infrastructure management and media disposal/destruction. Customers are responsible for authentication/authorization config and backup/restore."
   },
   {
     id: 123, domain: "database-security", type: "single",
-    question: "What is a reference field?",
-    options: ["A field that contains a URL", "A field that creates a relationship to another table by storing the sys_id of a record in that table", "A field that references a system property", "A calculated field"],
-    correct: 1,
-    explanation: "A reference field stores the sys_id of a record from another table, creating a relationship between tables. For example, the Caller field on an Incident references the User table."
+    question: "Which Security Center feature helps resolve platform-related security issues and misconfigurations?",
+    options: ["Security hardening", "Customer actions", "Security scanner", "Best practices"],
+    correct: 0,
+    explanation: "Security hardening helps resolve platform-related security issues and misconfigurations by providing recommendations and automated fixes for security vulnerabilities."
   },
   {
     id: 124, domain: "database-security", type: "single",
-    question: "What is the difference between a 1:many and a many:many relationship?",
-    options: ["They are the same", "1:many uses a reference field (one parent, many children); many:many uses an intermediary table (M2M) to link records", "1:many requires scripting; many:many does not", "Many:many is not supported in ServiceNow"],
+    question: "An Administrator wants to review all users having privileged access to identify those no longer needing it. Which Security Center feature helps?",
+    options: ["Security hardening", "Customer actions", "Security scanner", "Security posture console"],
     correct: 1,
-    explanation: "A 1:many relationship uses a reference field (e.g., many incidents reference one assignment group). A many:many relationship uses an intermediary (M2M) table to allow records in two tables to reference multiple records in each other."
+    explanation: "Customer actions in Security Center helps administrators review privileged access, identify users who no longer need elevated permissions, and take appropriate action."
   },
   {
-    id: 125, domain: "database-security", type: "single",
-    question: "What is the CMDB in ServiceNow?",
-    options: ["Configuration Management Dashboard", "Configuration Management Database - a repository of IT assets and their relationships", "Change Management Data Browser", "A scripting module"],
-    correct: 1,
-    explanation: "The CMDB (Configuration Management Database) is a centralized repository that stores information about IT assets (Configuration Items/CIs) and their relationships, supporting ITSM processes."
+    id: 125, domain: "database-security", type: "multi",
+    question: "What are the three key tables in an enterprise CMDB? (Choose 3)",
+    options: ["cmdb", "cmdb_rel_ci", "cmdb_bak", "sn_cmdb_bak", "sn_cmdb", "cmdb_ci"],
+    correct: [0,1,5],
+    explanation: "The three key CMDB tables are: cmdb (base CMDB table), cmdb_ci (Configuration Items table), and cmdb_rel_ci (CI Relationships table)."
   },
   {
     id: 126, domain: "database-security", type: "single",
-    question: "What is CSDM in ServiceNow?",
-    options: ["Customer Service Data Module", "Common Service Data Model - a framework/standard for organizing data in the CMDB", "Configuration System Data Manager", "A type of security model"],
-    correct: 1,
-    explanation: "CSDM (Common Service Data Model) is ServiceNow's recommended framework for organizing and structuring data in the CMDB. It defines standard tables, relationships, and lifecycle states."
+    question: "What is the purpose of the import set table in ServiceNow?",
+    options: ["It acts as a staging area for records imported", "A new application module in ServiceNow", "Used to import user data only", "None of the above"],
+    correct: 0,
+    explanation: "The import set table acts as a staging area for records imported from external sources. Data is loaded here first, then transformed and mapped to the target table."
   },
   {
     id: 127, domain: "database-security", type: "single",
-    question: "What is a Transform Map used for?",
-    options: ["Transforming report data", "Defining how import set data maps to target table fields during data import", "Transforming UI layouts", "Converting scripts between languages"],
+    question: "What is the correct process for loading data through an import set and transform map?",
+    options: ["Load data > Run transform > Create transform map", "Load data > Create transform map > Run transform", "Create transform map > Load data > Run transform", "Run transform > Load data > Create transform map"],
     correct: 1,
-    explanation: "A Transform Map defines the field mappings between an import set (staging table) and a target table, specifying how imported data should be mapped, transformed, and loaded."
+    explanation: "The correct import process is: Load Data (into the staging table) > Create Transform Map (map source to target fields) > Run Transform (move data to target table)."
   },
   {
     id: 128, domain: "database-security", type: "single",
-    question: "What is an Import Set in ServiceNow?",
-    options: ["A collection of update sets", "A staging table where imported data is temporarily stored before being transformed to a target table", "A set of import scripts", "A backup of the database"],
-    correct: 1,
-    explanation: "An Import Set is a staging table that temporarily holds data from an external source (CSV, Excel, JDBC, etc.) before it is transformed and loaded into the target ServiceNow table."
+    question: "You can coalesce on a single field to update an existing record. If a target table record has the same value in the coalesce field as the staging record, the target is updated. Which concept does this describe?",
+    options: ["Show Activity Stream", "Workflow orchestration", "Application Scoping", "Single-field coalesce"],
+    correct: 3,
+    explanation: "Single-field coalesce uses one field to match import records against existing records. If a match is found, the existing record is updated; if no match, a new record is created."
   },
   {
     id: 129, domain: "database-security", type: "single",
-    question: "What is the correct order of steps when importing data?",
-    options: ["Transform → Import → Map", "Load data into Import Set → Create/Run Transform Map → Data appears in target table", "Create target table → Write script → Import", "Map fields → Import → Validate"],
-    correct: 1,
-    explanation: "The import process is: 1) Load data into an Import Set (staging table), 2) Create/run a Transform Map that maps import set fields to target table fields, 3) Data is inserted/updated in the target table."
+    question: "Which statement applies to a set of fields when they are coalesced during an import?",
+    options: ["If a match is found, the system creates a new record", "If a match is not found, the system does not create a Transform Map", "If a match is not found, the existing record is updated", "If a match is found using the coalesce fields, the existing record is updated"],
+    correct: 3,
+    explanation: "When coalesce fields find a match, the existing record is updated with the import data. If no match is found, a new record is inserted."
   },
   {
     id: 130, domain: "database-security", type: "single",
-    question: "What is an ACL (Access Control List) in ServiceNow?",
-    options: ["A type of user group", "A security rule that defines who can access specific records, fields, or operations", "An application configuration", "A type of business rule"],
+    question: "What is the definition of a transform map in ServiceNow?",
+    options: ["A map used to trigger Business Rules before data is queued", "A map to determine relationships between fields in an Import Set and fields in an existing table", "A map used to store the history of incident records", "A map used to add data to encrypted fields"],
     correct: 1,
-    explanation: "An ACL (Access Control List) is a security rule that controls access to data. ACLs define who can perform operations (read, write, create, delete) on specific tables, records, or fields."
+    explanation: "A transform map defines the mapping between fields in an import set table and fields in a target table. It determines how imported data maps to the destination."
   },
   {
-    id: 131, domain: "database-security", type: "single",
-    question: "In what order are ACLs evaluated?",
-    options: ["Alphabetically by name", "Most specific to least specific (field-level → record-level → table-level)", "Randomly", "By creation date"],
-    correct: 1,
-    explanation: "ACLs are evaluated from most specific to least specific: field-level ACLs are checked first, then record-level, then table-level. The system matches the most specific rule applicable."
+    id: 131, domain: "database-security", type: "multi",
+    question: "What are possible import sources in ServiceNow? (Choose 5)",
+    options: ["NETWORK", "HTTP", "CSV", "SFTP", "JDBC", "EXCEL"],
+    correct: [1,2,3,4,5],
+    explanation: "Valid import sources include HTTP, CSV, SFTP, EXCEL, and JDBC. NETWORK is not a valid import source type in ServiceNow."
   },
   {
     id: 132, domain: "database-security", type: "single",
-    question: "What does it mean if no ACL rule matches a user's request?",
-    options: ["Access is granted by default", "Access is denied (default deny)", "The system prompts the user for credentials", "The request is logged but allowed"],
-    correct: 1,
-    explanation: "ServiceNow follows a 'default deny' approach. If no ACL rule explicitly grants access, the request is denied. This is a security best practice."
+    question: "How are users and groups related in ServiceNow?",
+    options: ["All to All", "One to Many", "Many to Many", "One to One"],
+    correct: 2,
+    explanation: "Users and groups have a Many-to-Many relationship. A user can belong to multiple groups, and a group can contain multiple users."
   },
   {
     id: 133, domain: "database-security", type: "single",
-    question: "What is a role in ServiceNow?",
-    options: ["A user's job title", "A named permission set that grants access to features, modules, and data", "A type of group", "A workflow step"],
+    question: "How are users related to roles and groups?",
+    options: ["One to One", "One to Many", "Many to Many", "Many to One"],
     correct: 1,
-    explanation: "A role is a named collection of permissions that controls what a user can see and do. Roles are assigned to users or groups and referenced in ACLs to control data access."
+    explanation: "Users have a One-to-Many relationship with roles and groups. One user can have many roles and belong to many groups."
   },
   {
     id: 134, domain: "database-security", type: "single",
-    question: "What is the difference between a role and a group?",
-    options: ["They are the same thing", "A group is a collection of users; a role defines permissions. Groups can have roles assigned, giving all group members those permissions", "Groups are for security; roles are for notifications", "Roles contain groups"],
-    correct: 1,
-    explanation: "Groups are collections of users (e.g., a team). Roles define permissions (e.g., itil, admin). When a role is assigned to a group, all members of that group inherit the role's permissions."
+    question: "Which table stores roles in ServiceNow?",
+    options: ["user_role", "imp_user", "sys_user_role", "sys_role"],
+    correct: 2,
+    explanation: "Roles are stored in the sys_user_role table. This table contains the definitions of all roles available in the ServiceNow instance."
   },
   {
-    id: 135, domain: "database-security", type: "multi",
-    question: "Which of the following are valid ACL operations? (Choose two)",
-    options: ["Read", "Execute", "Write", "Compile"],
-    correct: [0, 2],
-    explanation: "Standard ACL operations include Read, Write, Create, and Delete. Execute and Compile are not standard ACL operations in ServiceNow."
+    id: 135, domain: "database-security", type: "single",
+    question: "Can roles contain other roles in ServiceNow?",
+    options: ["No, roles can only be assigned to users directly", "Yes, any access granted to one role is automatically granted to roles that contain it", "Yes, but only admin can contain other roles", "No, roles are flat and independent"],
+    correct: 1,
+    explanation: "Yes, roles can contain other roles. When a role contains another role, any access granted to the contained role is automatically inherited by users who have the containing role."
   },
   {
     id: 136, domain: "database-security", type: "single",
-    question: "An administrator wants to prevent users from seeing the 'Social Security Number' field on the Employee table. What should they create?",
-    options: ["A UI Policy to hide the field", "A field-level ACL that restricts read access to the SSN field", "A client script to remove the field", "A business rule to clear the field"],
-    correct: 1,
-    explanation: "A field-level ACL is the proper security mechanism to restrict access to sensitive fields. UI Policies only hide fields on the form but don't prevent API or report access."
+    question: "What is a schema map in ServiceNow?",
+    options: ["A configuration panel for database backups", "JavaScript configured to run when records change", "The gear icon allowing column additions to lists", "A graphical representation showing referenced, referencing, extended, and extending tables"],
+    correct: 3,
+    explanation: "A schema map is a graphical representation that shows table relationships including referenced tables, referencing tables, extended tables, and extending tables."
   },
   {
     id: 137, domain: "database-security", type: "single",
-    question: "What is the sys_id?",
-    options: ["A sequential auto-increment number", "A 32-character globally unique identifier (GUID) assigned to every record in ServiceNow", "The record's display value", "A user-assigned ID"],
+    question: "What can be used to join two tables in ServiceNow?",
+    options: ["Link Tables", "Database Views", "Table Merge utility", "Views module"],
     correct: 1,
-    explanation: "The sys_id is a 32-character GUID (Globally Unique Identifier) automatically assigned to every record in ServiceNow. It serves as the primary key for all records."
+    explanation: "Database Views can be used to join two tables in ServiceNow. They create a virtual table that combines data from multiple source tables."
   },
   {
     id: 138, domain: "database-security", type: "single",
-    question: "What is table inheritance in ServiceNow?",
-    options: ["Copying data between tables", "A child table extending a parent table, inheriting all parent fields and adding its own", "Sharing ACLs between tables", "A backup mechanism"],
-    correct: 1,
-    explanation: "Table inheritance allows a child table to extend a parent table, inheriting all of the parent's fields while adding its own specific fields. For example, Incident extends Task."
+    question: "How are referenced fields visually identified in ServiceNow?",
+    options: ["From the Reference Lookup Icon", "From Base Class indicators", "By bold text formatting", "By a blue background color"],
+    correct: 0,
+    explanation: "Referenced fields are identified by the Reference Lookup Icon (a small magnifying glass or reference icon) that appears next to the field, indicating it references another table."
   },
   {
-    id: 139, domain: "database-security", type: "single",
-    question: "What is the Schema Map used for?",
-    options: ["Mapping data imports", "Visually displaying table relationships and their fields in a graphical interface", "Creating database schemas", "Mapping user roles to groups"],
-    correct: 1,
-    explanation: "The Schema Map provides a visual, graphical representation of table relationships, showing how tables are connected through reference fields and inheritance."
+    id: 139, domain: "database-security", type: "multi",
+    question: "Which items are associated with the CMDB? (Choose 3)",
+    options: ["Service Processes", "Table and fields only", "Dependency views", "User Permissions exclusively", "Database"],
+    correct: [0,2,4],
+    explanation: "The CMDB is associated with a Database (storing CI data), Dependency views (showing CI relationships), and Service Processes (mapping services to infrastructure)."
   },
   {
     id: 140, domain: "database-security", type: "single",
-    question: "What is a Configuration Item (CI) in the CMDB?",
-    options: ["A system property", "A record representing an IT asset, service, or component that needs to be managed", "A type of user account", "A workflow configuration"],
-    correct: 1,
-    explanation: "A Configuration Item (CI) is a record in the CMDB representing any IT asset, service, or component that needs to be tracked and managed (servers, applications, network devices, etc.)."
+    question: "User passwords are imported to ServiceNow through an LDAP connection. True or false?",
+    options: ["False, LDAP only imports group memberships", "True, but only encrypted passwords are imported", "True, passwords are synced for single sign-on", "False, LDAP imports user data but NOT passwords"],
+    correct: 3,
+    explanation: "False. LDAP in ServiceNow does NOT import passwords. Authentication against LDAP is done through LDAP bind operations, where ServiceNow sends credentials to the LDAP server for verification."
   },
   {
-    id: 141, domain: "database-security", type: "single",
-    question: "What is the purpose of a coalesce field in a Transform Map?",
-    options: ["To merge two fields into one", "To identify matching records to update instead of creating duplicates during import", "To encrypt field values", "To combine multiple tables"],
-    correct: 1,
-    explanation: "A coalesce field acts as a matching key during import. When the transform runs, it checks if a record with the same coalesce field value already exists. If so, it updates; if not, it inserts a new record."
+    id: 141, domain: "database-security", type: "multi",
+    question: "Which are valid ServiceNow User Authentication Methods? (Choose 3)",
+    options: ["XML feed", "Local database", "LDAP", "SSO", "FTP authentication"],
+    correct: [1,2,3],
+    explanation: "Valid ServiceNow authentication methods include Local database (built-in), LDAP (directory service), and SSO (Single Sign-On). Other methods include SAML 2.0, OAuth 2.0, and Digest Token."
   },
   {
     id: 142, domain: "database-security", type: "single",
-    question: "Which of the following best describes row-level security?",
-    options: ["Encrypting individual rows", "ACL conditions that restrict access to specific records based on field values or user attributes", "Deleting rows that are not needed", "Sorting rows by security level"],
-    correct: 1,
-    explanation: "Row-level security uses ACL conditions to restrict access to specific records. For example, an ACL might only allow users to see incidents assigned to their group."
+    question: "After the high security plugin is activated, what is an elevated privilege?",
+    options: ["A promotion for extension tables", "Users with the Admin role by default", "A role with special permissions during a login session", "Enabling ITIL role admin access"],
+    correct: 2,
+    explanation: "An elevated privilege is a role with special permissions that can be activated during a login session. After the high security plugin, certain sensitive roles must be explicitly elevated."
   },
   {
     id: 143, domain: "database-security", type: "single",
-    question: "What is field-level security?",
-    options: ["Encrypting field data", "ACLs that control read/write access to individual fields on a record", "Making fields mandatory", "Field validation rules"],
+    question: "What is a role in ServiceNow?",
+    options: ["A set of members sharing a subscription", "A collection of permissions granted to users", "Users who share the same purpose", "A collection of tasks assigned to a user"],
     correct: 1,
-    explanation: "Field-level security uses ACLs to control which users can read or write specific fields on a record. This is more granular than table or record-level security."
+    explanation: "A role is a collection of permissions that can be granted to users. Roles determine what a user can see and do within the ServiceNow platform."
   },
   {
-    id: 144, domain: "database-security", type: "single",
-    question: "An ACL rule has these components: Type, Operation, Name, and what else?",
-    options: ["Script only", "Condition/Script and Role requirements", "Table schema", "Workflow"],
-    correct: 1,
-    explanation: "ACL rules consist of: Type (record/field), Operation (read/write/create/delete), Name (table.field), and the access criteria which include Conditions, Scripts, and Role requirements."
+    id: 144, domain: "self-service-automation", type: "single",
+    question: "As it relates to ServiceNow reporting, which statement describes what a metric can do?",
+    options: ["A metric is a comparative measurement for flow and SLA effectiveness", "A metric is a report gauge on homepages displaying real-time data", "A metric is a time measurement for reporting workflow and SLA effectiveness", "A metric is used to measure and evaluate the effectiveness of IT service management processes"],
+    correct: 3,
+    explanation: "A metric measures and evaluates the effectiveness of IT service management processes. Metrics collect data about process performance for analysis and reporting."
   },
   {
-    id: 145, domain: "database-security", type: "single",
-    question: "What is the 'admin' role special behavior regarding ACLs?",
-    options: ["Admins must follow all ACLs", "The admin role bypasses all ACL checks by default", "Admin role only bypasses read ACLs", "There is no special behavior"],
-    correct: 1,
-    explanation: "By default, the admin role bypasses all ACL evaluations, granting full access to all data. This can be modified with the 'glide.security.strict' system property."
+    id: 145, domain: "self-service-automation", type: "single",
+    question: "Which provides the ability to automate integration tasks with custom integration in ServiceNow?",
+    options: ["IntegrationHub", "States configuration", "Updates module", "Notification engine"],
+    correct: 0,
+    explanation: "IntegrationHub provides the ability to automate integration tasks and build custom integrations. It includes spokes for connecting to external systems and services."
   },
   {
     id: 146, domain: "database-security", type: "single",
-    question: "What is the purpose of the 'glide.security.strict' property?",
-    options: ["To enable password complexity", "To require the admin role to pass ACL checks like other roles instead of bypassing them", "To enforce two-factor authentication", "To disable all security"],
-    correct: 1,
-    explanation: "When glide.security.strict is set to true, even users with the admin role must pass ACL checks rather than automatically bypassing them, providing tighter security."
+    question: "What is the CI Relationship Editor used for?",
+    options: ["To import configuration items from external sources", "To create new CI classes and categories", "To edit the properties of individual configuration items", "To define and manage relationships between configuration items in the CMDB"],
+    correct: 3,
+    explanation: "The CI Relationship Editor is used to define and manage relationships between configuration items (CIs) in the CMDB, showing how different CIs depend on or relate to each other."
   },
   {
     id: 147, domain: "database-security", type: "single",
-    question: "What is the difference between 'Contains roles' and 'Role' on an ACL?",
-    options: ["They are the same", "The Role field requires the user to have that role; Contains roles checks if the user has any of the listed roles", "Contains roles is for groups only", "Role is deprecated"],
+    question: "What is the CSDM (Common Service Data Model) in ServiceNow?",
+    options: ["A scripting framework for service automation", "A standardized data model that defines how to structure service-related data in the CMDB", "A security configuration for protecting service data", "A reporting tool for service performance metrics"],
     correct: 1,
-    explanation: "The Role field on an ACL specifies which roles grant access. If multiple roles are listed, the user needs at least one. The 'Requires role' section defines the required roles for the ACL to grant access."
+    explanation: "CSDM (Common Service Data Model) is a standardized data model that defines best practices for structuring service-related data in the CMDB, ensuring consistency across implementations."
   },
   {
     id: 148, domain: "database-security", type: "single",
-    question: "How can an administrator quickly see the ACLs applied to a specific field?",
-    options: ["Check the system log", "Right-click the field label and select 'Security Policy' or use the Security Diagnosis tool", "Open the schema map", "Check the data dictionary"],
+    question: "What type of table relationship is created when a reference field on one table points to another table?",
+    options: ["One-to-one relationship", "One-to-many relationship", "Many-to-many relationship", "Self-referencing relationship"],
     correct: 1,
-    explanation: "Right-clicking a field label provides access to security information. The Security Diagnosis tool (security_diagnosis.do) helps identify which ACLs are being evaluated for a specific resource."
+    explanation: "A reference field creates a one-to-many relationship. One record in the referenced table can be referenced by many records in the table containing the reference field."
   },
   {
     id: 149, domain: "database-security", type: "single",
-    question: "What is the purpose of the User Administration module?",
-    options: ["Managing database tables", "Creating, modifying, and deactivating user accounts, managing roles and groups", "Configuring system properties", "Building reports"],
-    correct: 1,
-    explanation: "User Administration modules allow administrators to create new user accounts, modify user properties, assign roles and groups, and deactivate users who no longer need access."
+    question: "How is a many-to-many relationship implemented in ServiceNow?",
+    options: ["Using a reference qualifier", "Using dot-walking between the two tables", "Using a many-to-many (M2M) table that stores pairs of sys_ids", "Using reference fields on both tables"],
+    correct: 2,
+    explanation: "Many-to-many relationships are implemented using a dedicated M2M table that stores pairs of sys_ids from both related tables, linking records together."
   },
   {
     id: 150, domain: "database-security", type: "single",
-    question: "When should you deactivate a user account vs. deleting it?",
-    options: ["Always delete accounts that are no longer needed", "Deactivate to preserve audit trails and historical data; deleting removes all associated records", "There is no difference", "Delete is recommended for compliance"],
+    question: "What is a sys_id in ServiceNow?",
+    options: ["A human-readable record number like INC0001234", "A 32-character GUID that uniquely identifies every record", "The primary key defined by the administrator", "A session identifier for logged-in users"],
     correct: 1,
-    explanation: "User accounts should be deactivated rather than deleted to preserve audit trails, historical assignments, and data integrity. Deleting a user can orphan related records."
+    explanation: "A sys_id is a 32-character globally unique identifier (GUID) automatically assigned to every record in ServiceNow. It serves as the primary key for all records."
   },
   {
-    id: 151, domain: "database-security", type: "multi",
-    question: "Which of the following are valid field types in ServiceNow? (Choose two)",
-    options: ["True/False", "Array", "Reference", "Hyperlink"],
-    correct: [0, 2],
-    explanation: "True/False (boolean) and Reference are valid ServiceNow field types. While ServiceNow has many field types (String, Integer, Date, etc.), 'Array' is not a standard field type."
+    id: 151, domain: "database-security", type: "single",
+    question: "Which type of table inherits fields and business logic from a parent table?",
+    options: ["Core table", "Custom table", "Base table", "Extended table"],
+    correct: 3,
+    explanation: "An extended table inherits all fields, business logic, and configurations from its parent table. For example, the Incident table extends the Task table."
   },
   {
     id: 152, domain: "database-security", type: "single",
-    question: "What is a dictionary override?",
-    options: ["Deleting a dictionary entry", "Changing inherited field attributes on a child table without affecting the parent table", "Overriding system properties", "A type of ACL"],
-    correct: 1,
-    explanation: "A dictionary override allows changing the attributes (default value, mandatory, read-only, etc.) of an inherited field on a child table without affecting the parent table's field definition."
+    question: "What is the purpose of a Reference Qualifier in ServiceNow?",
+    options: ["To create a new reference relationship between tables", "To validate data format in a reference field", "To define the display value of a reference field", "To restrict the records available for selection in a reference field"],
+    correct: 3,
+    explanation: "A Reference Qualifier restricts the records available for selection in a reference field. For example, limiting an assignment field to show only active users."
   },
   {
     id: 153, domain: "database-security", type: "single",
-    question: "What is the purpose of a CI relationship in the CMDB?",
-    options: ["To define ACL rules", "To document how Configuration Items are connected (e.g., 'runs on', 'used by', 'depends on')", "To create import mappings", "To define user group membership"],
-    correct: 1,
-    explanation: "CI relationships document how configuration items are connected to each other, such as 'Application X runs on Server Y' or 'Service A depends on Database B'. This supports impact analysis."
+    question: "What happens when you delete a record that is referenced by other records?",
+    options: ["The reference fields on other records are set to empty/null", "The deletion is blocked by default", "All referencing records are automatically deleted", "An error occurs and the database rolls back"],
+    correct: 0,
+    explanation: "When a referenced record is deleted, the reference fields on other records that pointed to it are typically set to empty (null). The referencing records themselves are not deleted."
   },
   {
     id: 154, domain: "database-security", type: "single",
-    question: "What is the 'Elevated Privilege' (elevation) feature?",
-    options: ["Granting admin role to all users", "Requiring users with security-sensitive roles to explicitly activate those roles for the current session", "A type of impersonation", "Automatic role assignment"],
+    question: "What is the purpose of the Dictionary in ServiceNow?",
+    options: ["To provide a glossary of ServiceNow terminology", "To store and manage all field definitions including type, length, and default values", "To translate the platform into different languages", "To define custom scripting functions"],
     correct: 1,
-    explanation: "Elevated Privilege requires users with certain sensitive roles (like security_admin) to explicitly activate the role elevation for their current session before using those privileges."
+    explanation: "The Dictionary (sys_dictionary) stores all field definitions for every table, including field type, length, default values, and other metadata about each field."
   },
   {
     id: 155, domain: "database-security", type: "single",
-    question: "What is a data import source in ServiceNow?",
-    options: ["A JavaScript data source", "A configured connection to external data (file, JDBC, LDAP, etc.) used to load data into import sets", "A type of table", "A report data source"],
-    correct: 1,
-    explanation: "A data source defines the connection to external data for import purposes. Sources can be files (CSV, Excel, XML), JDBC connections, LDAP directories, or other external systems."
+    question: "Which of the following is a valid field type in ServiceNow?",
+    options: ["Reference", "XML Document", "Binary Large Object (BLOB)", "All of the above"],
+    correct: 3,
+    explanation: "All of the above are valid ServiceNow field types. Reference fields link to other tables, BLOB stores binary data, and XML Document stores XML-formatted data."
   },
   {
     id: 156, domain: "database-security", type: "single",
-    question: "What happens during the 'Preview' step of a data import?",
-    options: ["Data is immediately imported", "The system shows a preview of how data will be mapped and transformed without actually modifying the target table", "A report is generated", "ACLs are validated"],
-    correct: 1,
-    explanation: "The Preview step shows how the imported data will map to the target table, including which records will be inserted vs. updated, without actually making any changes to the target table."
+    question: "What is a Data Policy in ServiceNow?",
+    options: ["A server-side enforcement of data requirements regardless of the interface used", "A security policy that controls who can view data", "A backup policy for data retention", "A client-side rule that controls form field visibility"],
+    correct: 0,
+    explanation: "A Data Policy enforces data requirements server-side, regardless of which interface is used (form, web service, import set). Unlike UI Policies, they work across all access methods."
   },
   {
     id: 157, domain: "database-security", type: "single",
-    question: "What is an onBefore transform script used for?",
-    options: ["Running after the transform completes", "Executing custom logic before each row is transformed from the import set to the target table", "Validating ACLs", "Creating the import set"],
-    correct: 1,
-    explanation: "An onBefore transform script runs before each row is processed during transformation, allowing custom logic like data manipulation, validation, or conditional skipping of records."
+    question: "What is the difference between a Data Policy and a UI Policy?",
+    options: ["Data Policies enforce rules regardless of interface; UI Policies only affect the form", "Data Policies are client-side; UI Policies are server-side", "Data Policies only affect imports; UI Policies affect all interfaces", "There is no difference; they are interchangeable"],
+    correct: 0,
+    explanation: "Data Policies enforce data requirements regardless of the interface (form, API, import). UI Policies only affect the form interface and run client-side."
   },
   {
     id: 158, domain: "database-security", type: "single",
-    question: "What is the difference between the 'itil' and 'admin' roles?",
-    options: ["They are the same", "itil provides access to ITSM applications (Incident, Problem, Change); admin provides full system administration access", "itil is more powerful than admin", "admin is for end users; itil is for administrators"],
-    correct: 1,
-    explanation: "The itil role provides access to ITSM applications like Incident, Problem, and Change Management. The admin role provides full system administration access including configuration and security."
+    question: "Which field type allows users to select from a predefined list of values?",
+    options: ["Reference", "Integer", "Choice", "String"],
+    correct: 2,
+    explanation: "A Choice field allows users to select from a predefined list of values. Choices can be defined in the Choice List (sys_choice table) for the specific table and field."
   },
   {
     id: 159, domain: "database-security", type: "single",
-    question: "How are groups used for assignment in ServiceNow?",
-    options: ["Groups cannot be used for assignment", "Tasks can be assigned to groups, and group members can then individually pick up or be assigned the task", "Groups are only for email notifications", "Groups replace roles"],
-    correct: 1,
-    explanation: "Groups are commonly used as assignment targets for tasks. When a task is assigned to a group, any member of that group can claim or be assigned the task for resolution."
+    question: "What module allows administrators to view and manage the structure of tables and their relationships?",
+    options: ["System Explorer", "Table Builder", "Data Dictionary", "Schema Map"],
+    correct: 3,
+    explanation: "Schema Map provides a visual, graphical view of table structures and their relationships (references, extensions). It helps administrators understand the data model."
   },
   {
     id: 160, domain: "database-security", type: "single",
-    question: "What is the purpose of the 'snc_internal' role?",
-    options: ["It is assigned to external users", "It identifies internal ServiceNow platform users vs. external portal users", "It grants admin privileges", "It enables LDAP integration"],
-    correct: 1,
-    explanation: "The snc_internal role distinguishes internal platform users (who access the backend) from external users (who access only the Service Portal or other external interfaces)."
+    question: "What is the purpose of Mapping Assist in the import process?",
+    options: ["To validate imported data against business rules", "To compress large data sets during import", "To help map fields from the import set table to the target table", "To automatically detect the file format of imported data"],
+    correct: 2,
+    explanation: "Mapping Assist helps administrators map fields from the import set table to the target table during transform map creation. It suggests field-level mappings based on field names."
   },
   {
     id: 161, domain: "database-security", type: "single",
-    question: "A field on a child table needs a different default value than the parent table. What should be used?",
-    options: ["Edit the parent table field directly", "Create a dictionary override on the child table", "Create a new field with a different name", "Write a business rule"],
-    correct: 1,
-    explanation: "A dictionary override allows you to change field attributes (like default value) on a child table without affecting the parent table. This is the proper mechanism for this scenario."
+    question: "What is the purpose of the Audit log in ServiceNow?",
+    options: ["To log all API calls to the instance", "To track user login and logout times only", "To monitor system performance metrics", "To record all changes made to audited fields, showing who changed what and when"],
+    correct: 3,
+    explanation: "The Audit log records all changes made to audited fields, including who made the change, what the old and new values were, and when the change occurred."
   },
   {
     id: 162, domain: "database-security", type: "single",
-    question: "What is the Application Scope in ServiceNow?",
-    options: ["The number of users who can access an app", "A namespace that protects application resources and prevents naming conflicts between applications", "A security role", "The geographic region of an instance"],
+    question: "Which approach is used to identify whether an imported record should be inserted as new or update an existing record?",
+    options: ["Data reconciliation", "Coalescing", "Field validation", "Transform mapping"],
     correct: 1,
-    explanation: "Application Scope provides a namespace for applications, protecting their resources (tables, scripts, etc.) from unintended modifications by other applications and preventing naming conflicts."
+    explanation: "Coalescing is used during imports to determine whether a record should be inserted (new) or updated (existing). Coalesce fields are matched against the target table to find existing records."
   },
   {
     id: 163, domain: "database-security", type: "single",
-    question: "What is the 'Number' field on task records?",
-    options: ["The sys_id", "An auto-generated, human-readable identifier (e.g., INC0001234) configured with a Number Maintenance rule", "A manual entry field", "A reference to another table"],
-    correct: 1,
-    explanation: "The Number field is an auto-generated, human-readable identifier (like INC0001234 for incidents). The numbering pattern and prefix are configured through Number Maintenance rules."
+    question: "What is the primary purpose of the CMDB in ServiceNow?",
+    options: ["To manage project timelines and milestones", "To store user credentials and authentication data", "To maintain a log of all system changes", "To store configuration items and their relationships for IT service management"],
+    correct: 3,
+    explanation: "The CMDB (Configuration Management Database) stores configuration items (CIs) and their relationships, providing a comprehensive view of the IT infrastructure for service management."
   },
   {
     id: 164, domain: "database-security", type: "single",
-    question: "What is the purpose of Before query business rules in the context of security?",
-    options: ["To format query results", "To add encoded query conditions that restrict which records a user can see, providing row-level security", "To validate data before saving", "To log query performance"],
-    correct: 1,
-    explanation: "Before query business rules can append additional query conditions to restrict which records are returned, effectively implementing row-level security by filtering results based on user attributes."
+    question: "What type of access does an ACL with no conditions, no roles, and no scripts grant?",
+    options: ["Full access to all users", "Access to authenticated users only", "No access to anyone", "Access only to the admin role"],
+    correct: 2,
+    explanation: "An ACL with no conditions, no roles, and no scripts denies access to everyone. At least one requirement (role, condition, or script returning true) must be met for access."
   },
   {
-    id: 165, domain: "database-security", type: "multi",
-    question: "Which of the following are CMDB best practices? (Choose two)",
-    options: ["Store all company data in the CMDB", "Follow the CSDM model for organizing CI data", "Keep CI relationships updated to support accurate impact analysis", "Give all users admin access to the CMDB"],
-    correct: [1, 2],
-    explanation: "CMDB best practices include following the CSDM model for data organization and keeping CI relationships current for accurate impact analysis. Not all company data belongs in the CMDB."
+    id: 165, domain: "database-security", type: "single",
+    question: "Which of the following best describes the concept of table extension in ServiceNow?",
+    options: ["Creating a view that combines two tables", "Linking two tables using a reference field", "Adding new fields to an existing table without creating a child table", "Creating a child table that inherits fields and logic from a parent table"],
+    correct: 3,
+    explanation: "Table extension creates a child table that inherits all fields, ACLs, and business logic from the parent table. For example, Incident extends Task, inheriting all Task fields."
   },
   {
     id: 166, domain: "database-security", type: "single",
-    question: "What is a choice list in ServiceNow?",
-    options: ["A list view of records", "A predefined set of selectable values for a field (dropdown)", "A type of report", "A user selection tool"],
-    correct: 1,
-    explanation: "A choice list is a predefined set of values that appear as a dropdown for a field. Choices are defined in the sys_choice table and can be customized per table and field."
+    question: "What is the significance of the 'x_' prefix on a table name?",
+    options: ["It indicates a temporary import table", "It indicates a deprecated table", "It indicates an extended system table", "It indicates a table created within a scoped application"],
+    correct: 3,
+    explanation: "The 'x_' prefix indicates a table created within a scoped application. The full prefix includes the vendor prefix and app name (e.g., x_vendor_app_tablename)."
   },
   {
-    id: 167, domain: "database-security", type: "single",
-    question: "What is the purpose of the 'Active' field on user records?",
-    options: ["To indicate if the user is currently logged in", "To control whether the user account is enabled (can log in) or disabled", "To show if the user has been recently active", "To track user activity hours"],
-    correct: 1,
-    explanation: "The Active field (true/false) on user records controls whether the account is enabled. Setting Active to false prevents the user from logging in without deleting the account."
+    id: 167, domain: "migration-scripting", type: "single",
+    question: "What is the language used for scripting in ServiceNow?",
+    options: ["JavaScript", "AngularJS", "Java", "Jelly"],
+    correct: 0,
+    explanation: "JavaScript is the scripting language used in ServiceNow for both client-side and server-side scripting. Server-side uses Mozilla Rhino as the JavaScript engine."
   },
   {
-    id: 168, domain: "database-security", type: "single",
-    question: "How does table extension differ from table relationship?",
-    options: ["They are the same thing", "Extension creates parent-child inheritance (shared fields); relationships link independent tables via reference fields", "Extension is for CMDB only", "Relationships require scripting"],
-    correct: 1,
-    explanation: "Table extension creates an inheritance hierarchy where the child inherits parent fields. Table relationships use reference fields to link records between independent tables without inheritance."
+    id: 168, domain: "migration-scripting", type: "multi",
+    question: "Which objects are used as part of the client-side scripting API? (Choose 2)",
+    options: ["g_user", "current and previous", "workflow.scratchpad", "gs", "g_form"],
+    correct: [0,4],
+    explanation: "g_form and g_user are client-side scripting API objects. g_form manipulates forms, g_user accesses user info. current, previous, gs, and workflow.scratchpad are server-side objects."
   },
   {
-    id: 169, domain: "database-security", type: "single",
-    question: "What field type would you use to allow users to select multiple values from a list?",
-    options: ["Reference", "List (glide_list)", "String", "Choice"],
+    id: 169, domain: "migration-scripting", type: "single",
+    question: "What are the steps to retrieve and apply an Update Set from another instance?",
+    options: ["Verify Complete, Retrieve, Preview, Apply", "Verify Complete, Retrieve, Preview, Commit", "Verify Complete, Test Connection, Commit", "Verify Complete, Test Connection, Apply"],
     correct: 1,
-    explanation: "The List (glide_list) field type allows users to select multiple values, storing multiple references. A standard Choice field only allows a single selection."
+    explanation: "The correct Update Set migration process is: Verify the Update Set is Complete > Retrieve it from the source > Preview to check for conflicts > Commit to apply."
   },
   {
-    id: 170, domain: "database-security", type: "single",
-    question: "What is the purpose of the cmdb_ci_server table?",
-    options: ["It stores service catalog servers", "It stores Configuration Items that represent physical or virtual servers, extending cmdb_ci", "It stores user account information", "It stores server-side scripts"],
-    correct: 1,
-    explanation: "The cmdb_ci_server table extends cmdb_ci (the base CI table) and stores Configuration Items specifically representing physical or virtual servers with server-specific attributes."
+    id: 170, domain: "migration-scripting", type: "single",
+    question: "What is responsible for capturing and moving configuration changes between ServiceNow instances?",
+    options: ["Update set", "Import set", "None of the above", "Change request"],
+    correct: 0,
+    explanation: "Update sets capture and move configuration changes between instances. They record customization changes (not data records) made in one instance for deployment to another."
   },
-
-  // ========== DOMAIN 6: Data Migration & Integration / Scripting (30 questions) ==========
   {
     id: 171, domain: "migration-scripting", type: "single",
-    question: "What is an Update Set in ServiceNow?",
-    options: ["A set of data records to import", "A collection of configuration changes that can be moved between instances", "A type of backup", "A scripting framework"],
-    correct: 1,
-    explanation: "An Update Set captures configuration changes (customizations) made in one instance so they can be transferred to another instance, supporting the dev → test → prod promotion path."
+    question: "What data records are captured in an update set?",
+    options: ["Only incident and change records", "All data records including user records and incidents", "Data records are NOT captured; only configuration/customization changes are captured", "Only records from custom tables"],
+    correct: 2,
+    explanation: "Update sets do NOT capture data records. They only capture configuration and customization changes such as business rules, UI policies, form layouts, and other system configurations."
   },
   {
     id: 172, domain: "migration-scripting", type: "single",
-    question: "What is the process for moving an Update Set from development to test?",
-    options: ["Copy the database", "Complete the update set in dev → Retrieve it in test → Preview → Commit", "Email the update set file", "Both instances share the same update set automatically"],
-    correct: 1,
-    explanation: "The process is: 1) Complete the update set in dev, 2) In the test instance, retrieve the update set from dev, 3) Preview to check for issues, 4) Commit to apply changes."
+    question: "If several update sets have modified the same object, which change will be in the merged update set?",
+    options: ["All changes are kept as separate versions", "The first change made", "The change from the highest-priority update set", "The most recent change"],
+    correct: 3,
+    explanation: "When merging update sets that have modified the same object, the most recent change wins. The latest modification overrides earlier ones."
   },
   {
     id: 173, domain: "migration-scripting", type: "single",
-    question: "What happens during the 'Preview' of an update set?",
-    options: ["Changes are applied immediately", "The system checks for potential issues like conflicts, missing references, and collisions without applying changes", "A backup is created", "The update set is deleted"],
-    correct: 1,
-    explanation: "Preview analyzes the update set for potential problems such as conflicts with existing customizations, missing references, and collisions. No changes are applied during preview."
+    question: "Which is an Update Set best practice?",
+    options: ["Before moving customizations, ensure both instances are on different versions", "Use the Baseline Update Set to store changed items", "Avoid using the Default Update Set for moving customizations", "Reopen completed Update Sets until applied to another instance"],
+    correct: 2,
+    explanation: "Best practice is to avoid using the Default Update Set for customizations you plan to move. Create named update sets to organize and track changes for specific purposes."
   },
   {
     id: 174, domain: "migration-scripting", type: "single",
-    question: "What is an update set collision?",
-    options: ["Two update sets with the same name", "When an update set tries to modify a record that has been changed in the target instance since the base version", "A database error", "Two users editing the same record"],
+    question: "Customer updates and payload in update sets are stored in which table?",
+    options: ["sys_update_set", "sys_update_xml", "sys_customer_update", "update_set"],
     correct: 1,
-    explanation: "A collision occurs when an update set contains changes to a record that has also been modified in the target instance. The admin must resolve the collision by choosing which version to keep."
+    explanation: "The individual update payloads (customization changes) are stored in the sys_update_xml table. Each record represents one configuration change captured in an update set."
   },
   {
     id: 175, domain: "migration-scripting", type: "single",
-    question: "What types of client scripts are available in ServiceNow?",
-    options: ["Only onLoad", "onLoad, onChange, onSubmit, and onCellEdit", "Before, After, and Display", "Insert and Update"],
-    correct: 1,
-    explanation: "The four types of client scripts are: onLoad (when form loads), onChange (when a field value changes), onSubmit (when form is submitted), and onCellEdit (when a list cell is edited)."
+    question: "UI Policies can make fields read-only, mandatory, or hidden. True or false?",
+    options: ["False, UI Policies can only hide fields", "False, that is the function of Data Policies only", "False, UI Policies can only make fields mandatory", "True"],
+    correct: 3,
+    explanation: "True. UI Policies run client-side and can dynamically change form behavior by making fields read-only, mandatory, or hidden based on conditions."
   },
   {
     id: 176, domain: "migration-scripting", type: "single",
-    question: "What is the GlideForm (g_form) API used for?",
-    options: ["Querying database records", "Manipulating form fields on the client side (show/hide, mandatory, values, messages)", "Server-side data processing", "Creating tables"],
-    correct: 1,
-    explanation: "GlideForm (g_form) is a client-side API for interacting with the current form. It provides methods to get/set field values, show/hide fields, set mandatory/read-only, and display messages."
+    question: "Business Rules are used to enforce mandatory data on a form. True or false?",
+    options: ["True, Business Rules run before the form loads", "True, Business Rules handle form field enforcement", "False, only Client Scripts can enforce mandatory fields", "False, UI Policies handle making fields mandatory on forms"],
+    correct: 3,
+    explanation: "False. Business Rules run server-side and are primarily for automation, not form field enforcement. UI Policies handle making fields mandatory, read-only, or hidden on forms."
   },
   {
     id: 177, domain: "migration-scripting", type: "single",
-    question: "Which g_form method is used to make a field mandatory?",
-    options: ["g_form.setRequired('field_name')", "g_form.setMandatory('field_name', true)", "g_form.mandatory('field_name')", "g_form.setFieldMandatory('field_name')"],
-    correct: 1,
-    explanation: "g_form.setMandatory('field_name', true) makes a field mandatory on the form. Pass false as the second parameter to make it optional again."
+    question: "Which statement correctly describes the difference between a Client Script and a Business Rule?",
+    options: ["Client Script executes on the client browser; Business Rule executes on the server", "Client Script runs before record load; Business Rule runs after load", "Client Script runs before load; Business Rule runs after update", "Client Script executes on server; Business Rule executes on client"],
+    correct: 0,
+    explanation: "Client Scripts execute in the user's browser (client-side) while Business Rules execute on the ServiceNow server (server-side). This is the fundamental distinction."
   },
   {
     id: 178, domain: "migration-scripting", type: "single",
-    question: "Which g_form method hides a field on the form?",
-    options: ["g_form.hideField('field_name')", "g_form.setVisible('field_name', false)", "g_form.setDisplay('field_name', false)", "g_form.removeField('field_name')"],
+    question: "An Administrator wants to display a reminder message to any user submitting an incident. Which feature does this?",
+    options: ["Data Policy", "Business Rule", "Client Script", "Policy"],
     correct: 2,
-    explanation: "g_form.setDisplay('field_name', false) hides a field from the form. setVisible controls visibility but keeps the field's space, while setDisplay completely removes it from view."
+    explanation: "A Client Script (specifically an onSubmit type) runs in the browser when a user submits a form. It can display messages, validate fields, and confirm actions before submission."
   },
   {
     id: 179, domain: "migration-scripting", type: "single",
-    question: "What is the GlideUser (g_user) API?",
-    options: ["A server-side user management API", "A client-side API that provides information about the currently logged-in user", "A form manipulation API", "A database query API"],
-    correct: 1,
-    explanation: "GlideUser (g_user) is a client-side API that provides information about the current user, such as their name, user ID, roles, and whether they have specific roles."
+    question: "Which GlideForm method prints a message on a blue background at the top of the current form?",
+    options: ["g_form.addInfoMsg()", "g_form.showFieldMsg()", "g_form.showFieldMessage()", "g_form.addInfoMessage()"],
+    correct: 3,
+    explanation: "g_form.addInfoMessage() displays a blue informational message banner at the top of the form. g_form.showFieldMsg() displays a message next to a specific field."
   },
   {
     id: 180, domain: "migration-scripting", type: "single",
-    question: "Which g_user method checks if the current user has a specific role?",
-    options: ["g_user.getRole('role_name')", "g_user.hasRole('role_name')", "g_user.checkRole('role_name')", "g_user.isRole('role_name')"],
-    correct: 1,
-    explanation: "g_user.hasRole('role_name') returns true if the currently logged-in user has the specified role. Note: users with 'admin' role will return true for any role check."
+    question: "What is the GlideForm client-side scripting object?",
+    options: ["g_form", "gs.form", "sn.form", "sn_form"],
+    correct: 0,
+    explanation: "g_form is the GlideForm client-side scripting object. It provides methods for manipulating form fields, values, and behavior in client scripts and UI policies."
   },
   {
     id: 181, domain: "migration-scripting", type: "single",
-    question: "What is a Business Rule in ServiceNow?",
-    options: ["A client-side script", "A server-side script that executes when records are queried, inserted, updated, or deleted", "A UI action", "A workflow activity"],
+    question: "Which objects can you use in a Scheduled Script Execution script?",
+    options: ["GlideRecord and current", "GlideSystem and GlideRecord", "GlideSystem and current", "GlideUser and GlideRecord"],
     correct: 1,
-    explanation: "A Business Rule is a server-side script that runs when records are displayed, queried, inserted, updated, or deleted. They automate processes and enforce business logic on the server."
+    explanation: "Scheduled Script Execution can use GlideSystem (gs) and GlideRecord. The 'current' object is not available in scheduled scripts as there is no triggering record."
   },
   {
-    id: 182, domain: "migration-scripting", type: "single",
-    question: "When does a 'before' business rule execute?",
-    options: ["After the record is saved to the database", "Before the record is saved to the database, allowing modification of values before they are written", "When the form is loaded in the browser", "After the form is submitted but before the server processes it"],
-    correct: 1,
-    explanation: "A 'before' business rule executes before the database operation (insert/update). This allows you to modify field values before they are committed to the database."
+    id: 182, domain: "migration-scripting", type: "multi",
+    question: "In a privately-scoped application, which methods are used for logging messages in server-side scripts? (Choose 2)",
+    options: ["gs.logError()", "gs.error()", "gs.debug()", "gs.log()", "gs.message()"],
+    correct: [0,1],
+    explanation: "In scoped applications, gs.logError() and gs.error() are available for logging. gs.log() and gs.debug() are only available in the global scope."
   },
   {
     id: 183, domain: "migration-scripting", type: "single",
-    question: "When does an 'after' business rule execute?",
-    options: ["After the form loads", "After the record has been saved to the database", "After a client script runs", "After the form is submitted but before saving"],
+    question: "The Business Rule script template shown as (function executeRule(current, previous) {...})(); represents which type of JavaScript function?",
+    options: ["Anonymous function", "Self-invoking function", "Constructor function", "Scoped function"],
     correct: 1,
-    explanation: "An 'after' business rule executes after the database operation is complete. It's useful for actions that depend on the record being saved, like creating related records or sending notifications."
+    explanation: "This pattern is a self-invoking (immediately invoked) function expression (IIFE). It defines and immediately executes the function, preventing variable leakage to the global scope."
   },
   {
     id: 184, domain: "migration-scripting", type: "single",
-    question: "What is a 'display' business rule?",
-    options: ["A rule that controls form layout", "A business rule that runs when a form is loaded, before it is displayed to the user, to prepare data", "A rule that controls field display", "A CSS rule for forms"],
+    question: "What is a ServiceNow event?",
+    options: ["Business rules, client scripts, fields, and forms collectively", "An indication that something notable has occurred, such as approving a request", "Semaphores that control user transactions", "A process for creating new tables and filling out extend table fields"],
     correct: 1,
-    explanation: "A 'display' business rule runs when a record's form is loaded (before display). It can pass data to the client via g_scratchpad, but cannot modify the record in the database."
+    explanation: "A ServiceNow event is an indication to platform processes that something notable has occurred (e.g., a request was approved, an incident was created). Events can trigger notifications and scripts."
   },
   {
-    id: 185, domain: "migration-scripting", type: "single",
-    question: "What is the purpose of g_scratchpad in a display business rule?",
-    options: ["Temporary data storage on the server", "A mechanism to pass server-side data to client scripts without additional AJAX calls", "A debugging tool", "A form field buffer"],
-    correct: 1,
-    explanation: "g_scratchpad allows display business rules to pass data from the server to client scripts. Data set on g_scratchpad server-side is available in client scripts, avoiding extra server calls."
+    id: 185, domain: "migration-scripting", type: "multi",
+    question: "What can trigger an event in ServiceNow? (Choose 2)",
+    options: ["UI Pages", "Workflows", "Client Scripts", "Business Rules"],
+    correct: [1,3],
+    explanation: "Events can be triggered by Business Rules (server-side) and Workflows. Client Scripts and UI Pages run on the client side and cannot directly trigger server-side events."
   },
   {
     id: 186, domain: "migration-scripting", type: "single",
-    question: "What is an async business rule?",
-    options: ["A rule that runs in the user's browser", "A business rule that runs after the transaction in a separate thread, not blocking the user", "A rule that runs before the transaction", "A rule that only runs on queries"],
-    correct: 1,
-    explanation: "An async (asynchronous) business rule runs in a separate thread after the database transaction completes. It doesn't block the user's transaction, making it suitable for long-running operations."
+    question: "UI Policies run on which side?",
+    options: ["Both client and server side equally", "Database side", "Server side only", "Client side"],
+    correct: 3,
+    explanation: "UI Policies run on the client side (in the browser). They dynamically change form field behavior without requiring scripting."
   },
   {
     id: 187, domain: "migration-scripting", type: "single",
-    question: "What is a UI Policy and how does it differ from a client script?",
-    options: ["They are identical", "A UI Policy is a no-code way to set field attributes (mandatory, visible, read-only) based on conditions; a client script requires JavaScript", "UI Policies run on the server; client scripts run on the client", "Client scripts are no-code; UI Policies require scripting"],
-    correct: 1,
-    explanation: "UI Policies provide a no-code interface to dynamically change form field attributes (mandatory, visible, read-only) based on conditions. Client scripts achieve similar goals but require JavaScript code."
+    question: "The onCellEdit() client script executes when?",
+    options: ["A particular field is modified on a list", "A record is deleted from a list", "Any field on any form is modified", "A particular field is modified on a form"],
+    correct: 0,
+    explanation: "The onCellEdit() client script type executes when a particular field is modified directly on a list view (using the List Editor). It does not apply to form edits."
   },
   {
     id: 188, domain: "migration-scripting", type: "single",
-    question: "What is GlideRecord?",
-    options: ["A client-side form API", "A server-side JavaScript API for querying, inserting, updating, and deleting records in the database", "A type of business rule", "A reporting API"],
-    correct: 1,
-    explanation: "GlideRecord is the primary server-side JavaScript API for database operations. It provides methods to query records, iterate results, and perform CRUD operations on any table."
+    question: "When can you NOT use Scheduled Jobs?",
+    options: ["To check conditions daily", "To send email on user request", "For client-side form validation", "To update old records on a schedule"],
+    correct: 2,
+    explanation: "Scheduled Jobs cannot perform client-side form validation. They run on the server on a schedule and have no access to the client browser or form interface."
   },
   {
     id: 189, domain: "migration-scripting", type: "single",
-    question: "Which GlideRecord method executes a query and retrieves matching records?",
-    options: ["gr.get()", "gr.query()", "gr.find()", "gr.search()"],
-    correct: 1,
-    explanation: "gr.query() executes the constructed query and retrieves matching records. Results are then iterated using gr.next(). gr.get() retrieves a single record by sys_id."
+    question: "What are the four types of Client Scripts in ServiceNow?",
+    options: ["onCreate, onModify, onSave, onClose", "onInsert, onUpdate, onDelete, onQuery", "onBefore, onAfter, onDisplay, onAsync", "onLoad, onChange, onSubmit, onCellEdit"],
+    correct: 3,
+    explanation: "The four Client Script types are: onLoad (when form loads), onChange (when a field changes), onSubmit (when form is submitted), and onCellEdit (when a list cell is edited)."
   },
   {
     id: 190, domain: "migration-scripting", type: "single",
-    question: "What does gr.addQuery('priority', '1') do in a GlideRecord script?",
-    options: ["Sets the priority field to 1", "Adds a filter condition to only return records where priority equals 1", "Creates a new record with priority 1", "Deletes records with priority 1"],
-    correct: 1,
-    explanation: "addQuery adds a filter condition to the GlideRecord query. gr.addQuery('priority', '1') restricts results to records where the priority field equals 1."
+    question: "When do Business Rules execute in relation to database operations?",
+    options: ["Only after database operations", "Only during form submission events", "Only before database operations", "Before or after insert, update, delete, or query operations"],
+    correct: 3,
+    explanation: "Business Rules can execute before or after database operations including insert, update, delete, and query. The timing (before/after) and operation type are configured on the rule."
   },
   {
     id: 191, domain: "migration-scripting", type: "single",
-    question: "What is a Script Include?",
-    options: ["A client-side script library", "A reusable server-side JavaScript class/function that can be called from business rules, flows, and other server scripts", "A type of UI action", "An import script"],
-    correct: 1,
-    explanation: "A Script Include is a reusable server-side JavaScript class or function. They are loaded on demand and can be called from business rules, scheduled jobs, flows, and other server-side scripts."
+    question: "Which server-side object provides access to the record that triggered a Business Rule?",
+    options: ["gs", "workflow.scratchpad", "previous", "current"],
+    correct: 3,
+    explanation: "The 'current' object provides access to the record that triggered the Business Rule. It contains the current field values of the record being processed."
   },
   {
     id: 192, domain: "migration-scripting", type: "single",
-    question: "What does the 'Client callable' checkbox on a Script Include do?",
-    options: ["Makes the script run on the client", "Allows the Script Include to be called from client scripts via GlideAjax", "Makes it available in UI Policies", "Enables it to run as a scheduled job"],
-    correct: 1,
-    explanation: "Checking 'Client callable' allows client-side scripts to call the Script Include through GlideAjax, enabling asynchronous server-side operations triggered from the browser."
-  },
-  {
-    id: 193, domain: "migration-scripting", type: "multi",
-    question: "Which of the following are valid operations in a 'before' business rule? (Choose two)",
-    options: ["Modify the current record's field values before save", "Delete unrelated records", "Abort the transaction using current.setAbortAction(true)", "Query external REST APIs synchronously"],
-    correct: [0, 2],
-    explanation: "Before business rules commonly modify field values before save and can abort the transaction using current.setAbortAction(true). While you can do other operations, these are the primary use cases."
-  },
-  {
-    id: 194, domain: "migration-scripting", type: "single",
-    question: "What is the 'current' object in a business rule?",
-    options: ["The currently logged-in user", "A GlideRecord object representing the record being processed by the business rule", "The current form view", "The current application scope"],
-    correct: 1,
-    explanation: "In a business rule, 'current' is a GlideRecord object representing the record that triggered the business rule. You can read and modify its fields."
-  },
-  {
-    id: 195, domain: "migration-scripting", type: "single",
-    question: "What is the 'previous' object in a business rule?",
-    options: ["The record before the current one in a list", "A read-only GlideRecord containing the record's values before the current update", "The previous version of the business rule", "The parent record"],
-    correct: 1,
-    explanation: "The 'previous' object contains the record's field values before the current update. It's useful for comparing old vs. new values to determine what changed."
-  },
-  {
-    id: 196, domain: "migration-scripting", type: "single",
-    question: "Which g_form method retrieves the value of a field?",
-    options: ["g_form.getField('field_name')", "g_form.getValue('field_name')", "g_form.readField('field_name')", "g_form.get('field_name')"],
-    correct: 1,
-    explanation: "g_form.getValue('field_name') returns the current value of the specified field on the form. For reference fields, it returns the sys_id."
-  },
-  {
-    id: 197, domain: "migration-scripting", type: "single",
-    question: "What is the REST API used for in ServiceNow?",
-    options: ["Resetting user passwords", "Enabling external systems to interact with ServiceNow data and functionality via HTTP", "Running server-side scripts", "Managing update sets"],
-    correct: 1,
-    explanation: "The REST API allows external systems to interact with ServiceNow using standard HTTP methods (GET, POST, PUT, DELETE) to query, create, update, and delete records."
-  },
-  {
-    id: 198, domain: "migration-scripting", type: "single",
-    question: "What is Integration Hub in ServiceNow?",
-    options: ["A network monitoring tool", "A central place to build, manage, and monitor integrations with external systems using spokes and flows", "A database integration tool", "A type of CMDB"],
-    correct: 1,
-    explanation: "Integration Hub provides a centralized platform for building and managing integrations with external systems. It uses spokes (integration packages) and Flow Designer for no-code integration."
-  },
-  {
-    id: 199, domain: "migration-scripting", type: "single",
-    question: "When should you use a UI Policy instead of a client script?",
-    options: ["Always use client scripts", "When you need simple field attribute changes (mandatory, visible, read-only) without writing code", "When you need to query the server", "When you need to modify database records"],
-    correct: 1,
-    explanation: "UI Policies are preferred for simple, no-code field attribute changes. Client scripts should be used when more complex logic, server calls (GlideAjax), or custom behaviors are needed."
-  },
-  {
-    id: 200, domain: "migration-scripting", type: "single",
-    question: "What is the execution order of client scripts and UI policies on form load?",
-    options: ["Client scripts first, then UI Policies", "UI Policies first, then onLoad client scripts", "They run simultaneously", "onLoad client scripts run first, then UI Policies are applied"],
+    question: "What does the 'previous' object represent in a Business Rule?",
+    options: ["The previous Business Rule that executed", "The record that was processed before the current one", "The parent record of the current record", "The prior version of the current record before the update"],
     correct: 3,
-    explanation: "On form load, onLoad client scripts execute first, then UI Policies are applied. This means UI Policies can override changes made by onLoad client scripts."
+    explanation: "The 'previous' object contains the field values of the current record before the update was made. It is useful for comparing old and new values in before/after Business Rules."
+  },
+  {
+    id: 193, domain: "migration-scripting", type: "single",
+    question: "Which GlideSystem method is used to add informational messages in server-side scripts?",
+    options: ["gs.print()", "gs.message()", "gs.addInfoMessage()", "gs.log()"],
+    correct: 2,
+    explanation: "gs.addInfoMessage() displays an informational message to the user from server-side code. gs.log() writes to the system log but does not display a message to the user."
+  },
+  {
+    id: 194, domain: "database-security", type: "single",
+    question: "What is the default behavior when no ACL rule matches a user's access request?",
+    options: ["The system prompts the user for elevated credentials", "Access is granted to all authenticated users", "Access is granted only to the admin role", "Access is denied"],
+    correct: 3,
+    explanation: "When no ACL rule matches, access is denied by default. ServiceNow follows a deny-by-default security model where explicit permission must be granted through ACL rules."
+  },
+  {
+    id: 195, domain: "database-security", type: "single",
+    question: "What is the difference between an Import Set and an Update Set?",
+    options: ["Import Sets work with CSV only; Update Sets work with XML only", "Import Sets move configurations; Update Sets move data", "Import Sets bring external data into ServiceNow; Update Sets move configuration changes between instances", "They are the same thing with different names"],
+    correct: 2,
+    explanation: "Import Sets bring external data INTO ServiceNow from sources like CSV and Excel. Update Sets move configuration/customization changes BETWEEN ServiceNow instances."
+  },
+  {
+    id: 196, domain: "collaboration", type: "single",
+    question: "What is the primary purpose of the Form Designer in ServiceNow?",
+    options: ["To write custom HTML for form rendering", "To configure form layout by adding, removing, and arranging fields and sections", "To design email notification templates", "To create new database tables from a visual interface"],
+    correct: 1,
+    explanation: "Form Designer provides a drag-and-drop interface for configuring form layout. Administrators can add, remove, and rearrange fields, sections, and formatters."
+  },
+  {
+    id: 197, domain: "self-service-automation", type: "single",
+    question: "Which ServiceNow feature allows administrators to define automated processes without writing code?",
+    options: ["Script Include Editor", "Business Rule scripting console", "Background Script executor", "Flow Designer"],
+    correct: 3,
+    explanation: "Flow Designer provides a no-code/low-code interface for building automated processes. Administrators can create flows using triggers and actions without writing scripts."
+  },
+  {
+    id: 198, domain: "database-security", type: "single",
+    question: "What field type is used to store a link to a record in another table?",
+    options: ["Choice", "Reference", "String", "URL"],
+    correct: 1,
+    explanation: "A Reference field stores a link (sys_id) to a record in another table. It creates a relationship between tables and enables dot-walking to access related record data."
+  },
+  {
+    id: 199, domain: "database-security", type: "single",
+    question: "Which of the following is true about the Task table in ServiceNow?",
+    options: ["It can only store incident records", "It is a base table extended by Incident, Change, Problem, and other task types", "It is a custom table that must be created manually", "It stores only completed tasks for archival"],
+    correct: 1,
+    explanation: "The Task table is a base table that is extended by many task-type tables including Incident, Change Request, Problem, and others. All task tables inherit Task's fields and logic."
+  },
+  {
+    id: 200, domain: "self-service-automation", type: "single",
+    question: "What is the primary difference between a Catalog Item and a Record Producer?",
+    options: ["A Catalog Item generates a request with requested items; a Record Producer creates a record directly on a target table", "Catalog Items are free; Record Producers have a cost", "There is no difference; they are interchangeable", "Record Producers can only create incidents; Catalog Items can create any record"],
+    correct: 0,
+    explanation: "A Catalog Item generates a Request (REQ) with Requested Items (RITM). A Record Producer creates a record directly on a specified target table (e.g., Incident, Change) through the catalog interface."
   }
 ];
